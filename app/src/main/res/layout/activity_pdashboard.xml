@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pdash_greet"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            tools:text="Hi Navya, Good Morning!"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            tools:text="Dashboard"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/temp_chart"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            tools:text="Temperature"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/spo2_chart"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            tools:text="SPO2"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/pulse_chart"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            tools:text="Pulse"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</ScrollView>

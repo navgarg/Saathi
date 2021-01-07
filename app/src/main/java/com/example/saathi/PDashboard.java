@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.saathi.charts.PulseChart;
 import com.example.saathi.charts.SPO2Chart;
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,6 +30,7 @@ import static android.content.ContentValues.TAG;
 public class PDashboard extends AppCompatActivity {
 
     static String type;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String docid = "9KpT3EhcCR4kVr8ogcCC";
@@ -37,6 +40,9 @@ public class PDashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdashboard);
+
+        TextView greet = findViewById(R.id.pdash_greet);
+        greet.setText("Hi " + auth.getCurrentUser().getDisplayName() + "! Good Day!");
 
         findViewById(R.id.new_reading).setOnClickListener(new View.OnClickListener() {
             @Override

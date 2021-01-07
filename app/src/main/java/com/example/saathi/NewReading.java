@@ -1,0 +1,57 @@
+package com.example.saathi;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class NewReading extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_reading);
+
+        findViewById(R.id.temperature).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewReading.this, AddReading.class);
+                intent.putExtra("title", "Temperature");
+                intent.putExtra("desc", "Enter the readings from your thermometer after keeping it under the tougue for one minute");
+                intent.putExtra("unit", " °F");
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.spo2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewReading.this, AddReading.class);
+                intent.putExtra("title", "SPO2");
+                intent.putExtra("desc", "Enter the readings of your Oxygen level from your Oximeter");
+                intent.putExtra("unit", " %");
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.pulse).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewReading.this, AddReading.class);
+                intent.putExtra("title", "Pulse Rate");
+                intent.putExtra("desc", "Enter the readings of your Pulse Rate");
+                intent.putExtra("unit", " bpm");
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.blood_pressure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewReading.this, AddReading.class);
+                intent.putExtra("title", "Blood Pressure");
+                intent.putExtra("desc", "Enter the readings of your Blood Pressure \n \nAdd space-separated values for the systolic and diastolic readings respectively");
+                intent.putExtra("unit", " mmHg");
+                startActivity(intent);
+            }
+        });
+    }
+}

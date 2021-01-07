@@ -3,8 +3,11 @@ package com.example.saathi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.saathi.charts.PulseChart;
 import com.example.saathi.charts.SPO2Chart;
@@ -25,29 +28,32 @@ import static android.content.ContentValues.TAG;
 public class PDashboard extends AppCompatActivity {
 
     static String type;
-    static ArrayList<Chart_Data> arrayList;
+    public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    static String docid = "";
+    public static String docid = "9KpT3EhcCR4kVr8ogcCC";
     private static final String COLLECTION_NAME = "Patient";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdashboard);
-        //getActionBar().hide();
 
-        //find charts
-        BarChart barChart = findViewById(R.id.temp_chart);
-        LineChart spo2Chart = findViewById(R.id.spo2_chart);
-        LineChart pulseChart = findViewById(R.id.pulse_chart);
+        findViewById(R.id.new_reading).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PDashboard.this, NewReading.class));
+            }
+        });
 
-        new TempChart(barChart);
-        new SPO2Chart(spo2Chart);
-        new PulseChart(pulseChart);
+        //new TempChart((BarChart) findViewById(R.id.temp_chart));
+        //todo: see why accessing db is a prob
+        new SPO2Chart((LineChart) findViewById(R.id.spo2_chart));
+        //new PulseChart((LineChart) findViewById(R.id.pulse_chart));
 
     }
 
-    public static ArrayList<Chart_Data> getData(String docType){
+    public static ArrayList<Chart_Data> getData(final String docType){
+        arrayList.clear();
         type = docType;
         db.collection(COLLECTION_NAME).whereEqualTo("uid", "uid")//todo: make uid dynamic
                 .get()
@@ -57,7 +63,6 @@ public class PDashboard extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if(task.getResult() != null) {
                                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                    Log.d("getData1", "in for1");
                                     docid = document.getId();
                                     db.collection(COLLECTION_NAME).document(docid).collection(type)
                                             .get()
@@ -67,8 +72,9 @@ public class PDashboard extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         if(task.getResult() != null) {
                                                             for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                                Log.d("getDat2a", "in for 2");
-                                                                arrayList.add(new Chart_Data(document.getId(), (Integer) document.get(type)));
+                                                                arrayList.add(new Chart_Data(document.getId(), Float.parseFloat(document.get(type).toString())));
+                                                                //Log.d("getdata", " " + arrayList);
+                                                                //Log.d("getData", "" + arrayList.get(0).getValue() + " " + arrayList.get(1).getValue());
                                                             }
                                                         }
                                                     } else {
@@ -77,13 +83,14 @@ public class PDashboard extends AppCompatActivity {
                                                 }
                                             });
                                 }
+                                Log.d("getData", "outside loop 1" + arrayList);
                             }
                         } else {
                             Log.w(TAG, "Error getting documents. ", task.getException());
                         }
+                        Log.d("getdata", "onCreate" + arrayList);
                     }
                 });
-
 
         Log.d("getData3", " " + arrayList);
         return arrayList;

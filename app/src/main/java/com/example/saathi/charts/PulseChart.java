@@ -31,7 +31,7 @@ public class PulseChart {
 
         for (int i =0; i < pulseArrayList.size();i++){
             //String date = pulseArrayList.get(i).getDate();
-            int pulse = pulseArrayList.get(i).getValue();
+            float pulse = pulseArrayList.get(i).getValue();
             barEntriesArrayList.add(new BarEntry(i, pulse));
         }
 

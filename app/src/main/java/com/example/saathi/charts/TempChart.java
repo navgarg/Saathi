@@ -37,7 +37,7 @@ public class TempChart {
 
         for (int i = 0; i < tempArrayList.size(); i++) {
             String date = tempArrayList.get(i).getDate();
-            int temp = tempArrayList.get(i).getValue();
+            float temp = tempArrayList.get(i).getValue();
             barEntriesArrayList.add(new BarEntry(i, temp));
             //add label for each new entry
             labelName.add(date);

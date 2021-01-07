@@ -14,14 +14,14 @@ import static android.content.ContentValues.TAG;
 
 public class Chart_Data {
     String date;
-    int value;
-    int diastolic;
-    public Chart_Data(String date, int value) {
+    float value;
+    float diastolic;
+    public Chart_Data(String date, float value) {
         this.date = date;
         this.value = value;
     }
 
-    public Chart_Data(String date, int value, int diastolic) {
+    public Chart_Data(String date, float value, float diastolic) {
         this.date = date;
         this.value = value;
         this.diastolic = diastolic;
@@ -31,10 +31,10 @@ public class Chart_Data {
         return date;
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 
-    public int getDiastolic(){ return diastolic;}
+    public float getDiastolic(){ return diastolic;}
 
 }

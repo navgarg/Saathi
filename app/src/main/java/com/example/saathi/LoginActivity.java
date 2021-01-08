@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.saathi.data.Chart_Data;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,6 +24,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import static android.content.ContentValues.TAG;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth mAuth;
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +104,43 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
                             //startActivity(new Intent(LoginActivity.this, PDashboard.class));
+                            db.collection(PDashboard.COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())//todo: make uid dynamic
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                if(task.getResult() != null) {
+                                                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                                        //todo: user is a registered patient
+                                                    }
+
+                                                }
+                                            } else {
+                                                Log.w(TAG, "Error getting documents: patient db ", task.getException());
+                                                db.collection(PDashboard.COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())//todo: make uid dynamic
+                                                        .get()
+                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    if(task.getResult() != null) {
+                                                                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                                                            //todo: user is a registered doctor
+                                                                        }
+
+                                                                    }
+                                                                } else {
+                                                                    Log.w(TAG, "Error getting documents: doctor db ", task.getException());
+                                                                    
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    });
 
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

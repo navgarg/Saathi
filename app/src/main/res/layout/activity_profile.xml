@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="32dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/profile_logo"/>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            tools:text="Navya Garg"
+            android:textColor="#F95A2C"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:textColor="#F95A2C"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/profile_email"
+            android:layout_marginLeft="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="example@test.com"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F95A2C"
+            android:text="Phone Number:"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/profile_phone"
+            android:layout_marginLeft="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="+919876543210"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F95A2C"
+            android:text="Age:"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/profile_age"
+            android:layout_marginLeft="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="14"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F95A2C"
+            android:text="Gender:"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/profile_gender"
+            android:layout_marginLeft="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Female"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F95A2C"
+            android:text="Profession:"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_marginLeft="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_button_patient"
+                android:layout_width="wrap_content"
+                android:text="Patient"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/radio_button_doctor"
+                android:layout_width="wrap_content"
+                android:text="Doctor"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

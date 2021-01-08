@@ -34,7 +34,8 @@ public class PDashboard extends AppCompatActivity {
     public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String docid = "9KpT3EhcCR4kVr8ogcCC";
-    private static final String COLLECTION_NAME = "Patient";
+    public static final String COLLECTION_PATIENT = "Patient";
+    public static final String COLLECTION_DOCTOR = "Doctor";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,15 @@ public class PDashboard extends AppCompatActivity {
     public static ArrayList<Chart_Data> getData(final String docType){
         arrayList.clear();
         type = docType;
-        db.collection(COLLECTION_NAME).whereEqualTo("uid", "uid")//todo: make uid dynamic
+
+        arrayList = getDatadata();
+
+        Log.d("getData3", " " + arrayList);
+        return arrayList;
+    }
+
+    public static ArrayList<Chart_Data> getDatadata(){
+        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", "uid")//todo: make uid dynamic
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -70,7 +79,7 @@ public class PDashboard extends AppCompatActivity {
                             if(task.getResult() != null) {
                                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                     docid = document.getId();
-                                    db.collection(COLLECTION_NAME).document(docid).collection(type)
+                                    db.collection(COLLECTION_PATIENT).document(docid).collection(type)
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
@@ -97,8 +106,6 @@ public class PDashboard extends AppCompatActivity {
                         Log.d("getdata", "onCreate" + arrayList);
                     }
                 });
-
-        Log.d("getData3", " " + arrayList);
         return arrayList;
     }
 }

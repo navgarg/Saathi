@@ -19,16 +19,15 @@ public class PulseChart {
     ArrayList<Chart_Data> pulseArrayList = new ArrayList<>();
     private static final String SUB_COLLECTION_PULSE = "Pulse";
 
-    public PulseChart(LineChart lineChart){
+    public PulseChart(LineChart lineChart, ArrayList<Chart_Data> pulseArrayList){
         this.lineChart = lineChart;
         barEntriesArrayList = new ArrayList<>();
+        pulseArrayList.clear();
+        this.pulseArrayList = pulseArrayList;
         drawPulseChart();
     }
 
     private void drawPulseChart(){
-        pulseArrayList.clear();
-        pulseArrayList = PDashboard.getData(SUB_COLLECTION_PULSE);
-
         for (int i =0; i < pulseArrayList.size();i++){
             //String date = pulseArrayList.get(i).getDate();
             float pulse = pulseArrayList.get(i).getValue();

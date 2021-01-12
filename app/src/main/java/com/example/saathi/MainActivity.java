@@ -15,5 +15,6 @@ public class MainActivity extends AppCompatActivity {
         //startActivity(new Intent(this, PDashboard.class));
         startActivity(new Intent(this, LoginActivity.class)); //working :)
         //startActivity(new Intent(this, NewReading.class)); //working :)
+        //startActivity(new Intent(this, ProfileActivity.class));
     }
 }

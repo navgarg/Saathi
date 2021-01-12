@@ -29,6 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import static android.content.ContentValues.TAG;
+import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
+import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -63,15 +65,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //if user is already signed in
-        if (mAuth.getCurrentUser() != null) {
-            finish();
-            startActivity(new Intent(this, PDashboard.class));
-        }
-    }
+    //todo: uncomment when error in PDashboard is removed
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        //if user is already signed in
+//        if (mAuth.getCurrentUser() != null) {
+//            finish();
+//            startActivity(new Intent(this, PDashboard.class));
+//        }
+//    }
 
 
     @Override
@@ -104,9 +107,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
+                            Toast.makeText(LoginActivity.this, "LogIn successful!", Toast.LENGTH_LONG).show();
                             final FirebaseUser user = mAuth.getCurrentUser();
                             //startActivity(new Intent(LoginActivity.this, PDashboard.class));
-                            db.collection(PDashboard.COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())//todo: make uid dynamic
+                            db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
@@ -115,12 +119,13 @@ public class LoginActivity extends AppCompatActivity {
                                                 if(task.getResult() != null) {
                                                     for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                                         //todo: user is a registered patient
+                                                        Log.d(TAG, "signin successful, registered patient");
                                                     }
 
                                                 }
                                             } else {
                                                 Log.w(TAG, "Error getting documents: patient db ", task.getException());
-                                                db.collection(PDashboard.COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())//todo: make uid dynamic
+                                                db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
                                                         .get()
                                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                             @Override
@@ -129,12 +134,14 @@ public class LoginActivity extends AppCompatActivity {
                                                                     if(task.getResult() != null) {
                                                                         for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                                                             //todo: user is a registered doctor
+                                                                            Log.d(TAG, "signin successful, registered doctor");
                                                                         }
 
                                                                     }
                                                                 } else {
                                                                     Log.w(TAG, "Error getting documents: doctor db ", task.getException());
-                                                                    
+                                                                    startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                                                                    Toast.makeText(LoginActivity.this, "Kindly fill in your details", Toast.LENGTH_LONG).show();
                                                                 }
                                                             }
                                                         });

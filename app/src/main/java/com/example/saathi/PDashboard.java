@@ -19,6 +19,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,16 +27,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 
 public class PDashboard extends AppCompatActivity {
 
     static String type;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String docid = "9KpT3EhcCR4kVr8ogcCC";
-    public static final String COLLECTION_PATIENT = "Patient";
-    public static final String COLLECTION_DOCTOR = "Doctor";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class PDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_pdashboard);
 
         TextView greet = findViewById(R.id.pdash_greet);
-        greet.setText("Hi " + auth.getCurrentUser().getDisplayName() + "! Good Day!");
+        //greet.setText("Hi " + user.getDisplayName() + "! Good Day!");
 
         findViewById(R.id.new_reading).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +55,7 @@ public class PDashboard extends AppCompatActivity {
         //new TempChart((BarChart) findViewById(R.id.temp_chart));
         //todo: see why accessing db is a prob
         new SPO2Chart((LineChart) findViewById(R.id.spo2_chart));
-        //new PulseChart((LineChart) findViewById(R.id.pulse_chart));
+        new PulseChart((LineChart) findViewById(R.id.pulse_chart), getData("Pulse"));
 
     }
 
@@ -63,13 +63,6 @@ public class PDashboard extends AppCompatActivity {
         arrayList.clear();
         type = docType;
 
-        arrayList = getDatadata();
-
-        Log.d("getData3", " " + arrayList);
-        return arrayList;
-    }
-
-    public static ArrayList<Chart_Data> getDatadata(){
         db.collection(COLLECTION_PATIENT).whereEqualTo("uid", "uid")//todo: make uid dynamic
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -88,8 +81,7 @@ public class PDashboard extends AppCompatActivity {
                                                         if(task.getResult() != null) {
                                                             for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                                                 arrayList.add(new Chart_Data(document.getId(), Float.parseFloat(document.get(type).toString())));
-                                                                //Log.d("getdata", " " + arrayList);
-                                                                //Log.d("getData", "" + arrayList.get(0).getValue() + " " + arrayList.get(1).getValue());
+
                                                             }
                                                         }
                                                     } else {
@@ -106,6 +98,8 @@ public class PDashboard extends AppCompatActivity {
                         Log.d("getdata", "onCreate" + arrayList);
                     }
                 });
+
+        Log.d("getData3", " " + arrayList);
         return arrayList;
     }
 }

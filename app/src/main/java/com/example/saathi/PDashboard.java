@@ -14,6 +14,7 @@ import com.example.saathi.charts.PulseChart;
 import com.example.saathi.charts.SPO2Chart;
 import com.example.saathi.charts.TempChart;
 import com.example.saathi.data.Chart_Data;
+import com.example.saathi.data.Constants;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
+import static com.example.saathi.data.Constants.COLLECTION_PULSE;
 
 public class PDashboard extends AppCompatActivity {
 
@@ -35,7 +37,7 @@ public class PDashboard extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static String docid = "9KpT3EhcCR4kVr8ogcCC";
+    public static String docid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class PDashboard extends AppCompatActivity {
         //new TempChart((BarChart) findViewById(R.id.temp_chart));
         //todo: see why accessing db is a prob
         new SPO2Chart((LineChart) findViewById(R.id.spo2_chart));
-        new PulseChart((LineChart) findViewById(R.id.pulse_chart), getData("Pulse"));
+        new PulseChart((LineChart) findViewById(R.id.pulse_chart), getData(COLLECTION_PULSE));
 
     }
 

@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".YourPatients"></activity>
+        <activity android:name=".YourDoctors" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".DDashboard" />
         <activity android:name=".AddReading" />
         <activity android:name=".NewReading" />

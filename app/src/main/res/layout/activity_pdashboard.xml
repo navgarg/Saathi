@@ -40,7 +40,9 @@
             android:background="@drawable/rounded_button"
             android:text="New Reading"
             android:textSize="18sp"
-            android:textColor="#ffffff"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textColor="#000000"
             android:textAllCaps="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

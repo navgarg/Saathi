@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.saathi.data.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +22,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
+import static com.example.saathi.data.Constants.DB_AGE;
+import static com.example.saathi.data.Constants.DB_NAME;
+import static com.example.saathi.data.Constants.DB_PHONE;
+import static com.example.saathi.data.Constants.DB_SEX;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -61,11 +66,11 @@ public class ProfileActivity extends AppCompatActivity {
                             if (task.getResult() != null) {
                                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                     Log.d(TAG, "got data");
-                                    name.setText(document.get("Name").toString());
-                                    age.setText(document.get("Age").toString());
+                                    name.setText(document.get(DB_NAME).toString());
+                                    age.setText(document.get(DB_AGE).toString());
                                     email.setText("test@example.com");
-                                    gender.setText(document.get("Sex").toString());
-                                    phone.setText(document.get("Phone").toString());
+                                    gender.setText(document.get(DB_SEX).toString());
+                                    phone.setText(document.get(DB_PHONE).toString());
                                     radioButtonPatient.setChecked(true);
                                     Log.d(TAG, "Patient details set");
                                 }
@@ -73,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         } else {
                             Log.w(TAG, "Error getting documents: patient db ", task.getException());
-                            db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())//todo: make uid dynamic
+                            db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
@@ -81,11 +86,11 @@ public class ProfileActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 if (task.getResult() != null) {
                                                     for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                        name.setText(document.get("Name").toString());
-                                                        age.setText(document.get("Age").toString());
+                                                        name.setText(document.get(DB_NAME).toString());
+                                                        age.setText(document.get(DB_AGE).toString());
                                                         email.setText(user.getEmail());
-                                                        gender.setText(document.get("Sex").toString());
-                                                        phone.setText(document.get("Phone").toString());
+                                                        gender.setText(document.get(DB_SEX).toString());
+                                                        phone.setText(document.get(DB_PHONE).toString());
                                                         radioButtonDoctor.setChecked(true);
                                                         Log.d(TAG, "Doctor details set");
                                                     }

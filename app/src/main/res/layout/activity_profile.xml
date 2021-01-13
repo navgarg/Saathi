@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name:"
-            android:textColor="#F95A2C"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:textSize="18sp"/>
 
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email:"
-            android:textColor="#F95A2C"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:textSize="18sp"/>
 
@@ -55,7 +55,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#F95A2C"
+            android:textColor="@color/colorPrimary"
             android:text="Phone Number:"
             android:textStyle="bold"
             android:textSize="18sp"/>
@@ -71,7 +71,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#F95A2C"
+            android:textColor="@color/colorPrimary"
             android:text="Age:"
             android:textStyle="bold"
             android:textSize="18sp"/>
@@ -87,7 +87,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#F95A2C"
+            android:textColor="@color/colorPrimary"
             android:text="Gender:"
             android:textStyle="bold"
             android:textSize="18sp"/>
@@ -103,7 +103,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#F95A2C"
+            android:textColor="@color/colorPrimary"
             android:text="Profession:"
             android:textStyle="bold"
             android:textSize="18sp"/>
@@ -131,6 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
+            android:padding="16dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/rounded_button"/>
 

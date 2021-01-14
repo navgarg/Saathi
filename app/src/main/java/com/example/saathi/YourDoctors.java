@@ -2,6 +2,7 @@ package com.example.saathi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,9 +19,11 @@ public class YourDoctors extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo: send intent to new activity to get details about doctor
+                startActivity(new Intent(YourDoctors.this, NewDoctor.class));
             }
         });
+
+        //todo: get data from db
 
 
 

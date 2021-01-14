@@ -1,7 +1,7 @@
 package com.example.saathi.data;
 
 public class Person {
-    String name, info, uid;
+    private String name, info, uid;
 
     public Person(String name, String info, String uid){
         this.info = info;

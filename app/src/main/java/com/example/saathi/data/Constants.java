@@ -18,5 +18,6 @@ public class Constants {
     public static final String DB_DOCTORS = "doctors";
     public static final String DB_IS_CRITICAL = "isCritical";
     public static final String DB_SPECIALITY = "speciality";
+    public static final String DB_NEW_PATIENTS = "newPatients";
 
 }

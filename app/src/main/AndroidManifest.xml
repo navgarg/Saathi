@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".YourPatients"></activity>
+        <activity android:name=".NewDoctor"></activity>
+        <activity android:name=".YourPatients" />
         <activity android:name=".YourDoctors" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DDashboard" />

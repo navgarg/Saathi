@@ -21,5 +21,8 @@ public class YourDoctors extends AppCompatActivity {
                 //todo: send intent to new activity to get details about doctor
             }
         });
+
+
+
     }
 }

@@ -8,7 +8,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/list_profile_pic"
+        android:id="@+id/choose_list_profile_pic"
         android:layout_weight="2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -16,13 +16,13 @@
 
     <LinearLayout
         android:layout_gravity="center_vertical"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/list_name"
+            android:id="@+id/choose_list_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -31,7 +31,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/list_info"
+            android:id="@+id/choose_list_speciality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -40,25 +40,10 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/list_details"
+    <RadioButton
+        android:id="@+id/choose_list_button"
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/assignment_logo_round"/>
-
-    <ImageView
-        android:id="@+id/list_message"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/message_logo_round"/>
-
-    <ImageView
-        android:id="@+id/list_call"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/call_logo_round"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

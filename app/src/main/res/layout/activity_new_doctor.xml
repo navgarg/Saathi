@@ -7,32 +7,22 @@
     tools:context=".YourDoctors">
 
     <TextView
-        android:id="@+id/dash"
+        android:id="@+id/choosedoc"
         android:layout_width="match_parent"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:text="Your Doctors"
+        android:text="Choose a Doctor"
         android:textColor="#000000"
         android:textSize="25sp"
         android:gravity="center"
         android:textStyle="bold"
         android:layout_height="wrap_content"/>
 
-    <ListView
-        android:layout_below="@+id/dash"
-        android:id="@+id/list_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/choosedoc"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_doctor_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/add_logo"
-        android:contentDescription="Add Doctor"
-        android:layout_margin="32dp" />
 
 </RelativeLayout>

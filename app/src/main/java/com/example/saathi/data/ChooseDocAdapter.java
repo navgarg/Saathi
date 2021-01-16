@@ -28,6 +28,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
+import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
+
 
 public class ChooseDocAdapter extends RecyclerView.Adapter<ChooseDocAdapter.ViewHolder>{
     private List<Person> personList;
@@ -41,7 +43,7 @@ public class ChooseDocAdapter extends RecyclerView.Adapter<ChooseDocAdapter.View
     public ChooseDocAdapter(List<Person> list, Context context) {
         this.personList = list;
         this.context = context;
-        db.collection(Constants.COLLECTION_DOCTOR).whereEqualTo("uid", "uid")
+        db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", "uid")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -70,9 +72,6 @@ public class ChooseDocAdapter extends RecyclerView.Adapter<ChooseDocAdapter.View
         person = personList.get(position);
         holder.name.setText(person.getName());
         holder.speciality.setText("" + person.getInfo());
-
-        //since only one radio button is allowed to be selected,
-        // this condition un-checks previous selections
         holder.selectionState.setChecked(lastSelectedPosition == position);
 
     }
@@ -99,17 +98,14 @@ public class ChooseDocAdapter extends RecyclerView.Adapter<ChooseDocAdapter.View
                 public void onClick(View v) {
                     lastSelectedPosition = getAdapterPosition();
                     notifyDataSetChanged();
-
-                    //todo: update this
+                    //Alert dialog to confirm
                     AlertDialog.Builder builder = new AlertDialog.Builder(ChooseDocAdapter.this.context);
                     builder.setMessage("Send request to Doctor " + name.getText() + "?");
                     builder.setCancelable(false);
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
-                            //todo: update
-                            DocumentReference docRef = db.collection(Constants.COLLECTION_DOCTOR).document(docid);
+                            DocumentReference docRef = db.collection(COLLECTION_DOCTOR).document(docid);
                             //todo: get id from firebase: id of current logged in user
                             docRef.update("newPatients", FieldValue.arrayUnion("")); //FieldValue.arrayUnion(user.getUID or smth));
                             Toast.makeText(ChooseDocAdapter.this.context, "Request sent", Toast.LENGTH_SHORT).show();

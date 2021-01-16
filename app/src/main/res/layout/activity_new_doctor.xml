@@ -20,7 +20,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/choosedoc"
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_view_choose_doc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp"/>

@@ -29,12 +29,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
+import static com.example.saathi.data.Constants.DB_NEW_PATIENTS;
 
+//not working :(
 
 public class ChooseDocAdapter extends RecyclerView.Adapter<ChooseDocAdapter.ViewHolder>{
     private List<Person> personList;
     private Context context;
     private int lastSelectedPosition = -1;
+    static final String TAG = "ChooseDocAdapter";
     Person person;
     String docid = "";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -105,9 +108,13 @@ public class ChooseDocAdapter extends RecyclerView.Adapter<ChooseDocAdapter.View
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            DocumentReference docRef = db.collection(COLLECTION_DOCTOR).document(docid);
+                            DocumentReference docRef = db.collection(COLLECTION_DOCTOR).document(docid); //correct docid
+                            Log.d(TAG, "onClick: docid: " + docid);
                             //todo: get id from firebase: id of current logged in user
-                            docRef.update("newPatients", FieldValue.arrayUnion("")); //FieldValue.arrayUnion(user.getUID or smth));
+                            //todo: accessing array is a problem
+                            docRef.update(DB_NEW_PATIENTS, FieldValue.arrayUnion("9Jid11RmKQSOXMItthSSVFAB1OT2"));
+                            //Log.d(TAG, "onClick: updated");
+                            Log.d(TAG, "onClick: patients array" + db.collection(COLLECTION_DOCTOR).document(docid).get().getResult().get(DB_NEW_PATIENTS));
                             Toast.makeText(ChooseDocAdapter.this.context, "Request sent", Toast.LENGTH_SHORT).show();
                             Toast.makeText(ChooseDocAdapter.this.context, "You will be able " +
                                     "to contact the doctor once he approves your request.", Toast.LENGTH_LONG).show();

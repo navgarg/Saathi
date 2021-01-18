@@ -52,6 +52,7 @@ public class NewDoctor extends AppCompatActivity {
         chooseDoctorRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
+        //todo: filter doctors who're already present
         db.collection(COLLECTION_DOCTOR)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -63,21 +64,14 @@ public class NewDoctor extends AppCompatActivity {
                                         document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
                                         , COLLECTION_DOCTOR, document.get(DB_PHONE).toString());
                                 arrayList.add(person);
-                                Log.d(TAG, "person added "+ document.get(DB_NAME).toString() + " " +
-                                        document.get(DB_SPECIALITY).toString() + " " + document.get(DB_UID).toString());
+                                Log.d(TAG, "person added "+ arrayList);
                             }
-                            ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(getArray(),NewDoctor.this);
+                            ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(arrayList,NewDoctor.this);
                             chooseDoctorRecyclerView.setAdapter(recyclerViewAdapter);
                             Log.d(TAG, "arraylist sent");
 
                         }
                     }
                 });
-    }
-
-    private List<Person> getArray(){
-        //todo: safe delete this method cuz we're already getting data in onCreate
-        arrayList.add(new Person("Manish Garg", "hello", "uid", COLLECTION_DOCTOR, "9868104455"));
-        return arrayList;
     }
 }

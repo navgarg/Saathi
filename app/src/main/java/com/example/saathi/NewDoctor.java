@@ -49,7 +49,8 @@ public class NewDoctor extends AppCompatActivity {
                         if (task.isSuccessful()){
                             for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                 Person person = new Person(document.get(DB_NAME).toString(),
-                                        document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString(), COLLECTION_DOCTOR);
+                                        document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
+                                        , COLLECTION_DOCTOR, document.get(DB_PHONE).toString());
                                 arrayList.add(person);
                                 Log.d(TAG, "person added "+ document.get(DB_NAME).toString() + " " +
                                         document.get(DB_SPECIALITY).toString() + " " + document.get(DB_UID).toString());
@@ -76,7 +77,7 @@ public class NewDoctor extends AppCompatActivity {
 
     private List<Person> getArray(){
         //todo: safe delete this method cuz we're already getting data in onCreate
-        arrayList.add(new Person("Manish Garg", "Pulmonologist", "uid", COLLECTION_DOCTOR));
+        arrayList.add(new Person("Manish Garg", "Pulmonologist", "uid", COLLECTION_DOCTOR, "9868104455"));
         return arrayList;
     }
 }

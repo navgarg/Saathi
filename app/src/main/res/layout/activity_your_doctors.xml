@@ -20,7 +20,7 @@
 
     <ListView
         android:layout_below="@+id/dash"
-        android:id="@+id/list_view"
+        android:id="@+id/list_view_your_doc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"/>

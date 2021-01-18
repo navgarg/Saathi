@@ -2,6 +2,9 @@ package com.example.saathi.data;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.saathi.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -34,7 +38,8 @@ public class PersonAdapter extends ArrayAdapter<Person> {
                     R.layout.list_item, parent, false);
         }
 
-        Person currentPerson = getItem(position);
+        final Person currentPerson = getItem(position);
+        ImageView details = listItemView.findViewById(R.id.list_details);
 
         TextView name = listItemView.findViewById(R.id.list_name);
         name.setText(currentPerson.getName());
@@ -42,12 +47,11 @@ public class PersonAdapter extends ArrayAdapter<Person> {
         TextView info = listItemView.findViewById(R.id.list_info);
         info.setText(currentPerson.getInfo());
 
-        ImageView details = listItemView.findViewById(R.id.list_details);
-
         if (currentPerson.getProfession().equals(COLLECTION_PATIENT)){
             details.setVisibility(View.GONE);
         }
         else{
+            if (currentPerson.getIsCritical()) name.setTextColor(Color.RED);
             details.setVisibility(View.VISIBLE);
             details.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,6 +66,9 @@ public class PersonAdapter extends ArrayAdapter<Person> {
             @Override
             public void onClick(View view) {
                 //todo: complete
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_APP_MESSAGING);
+                intent.setData(Uri.parse("smsto:"+currentPerson.getPhone()));
             }
         });
 

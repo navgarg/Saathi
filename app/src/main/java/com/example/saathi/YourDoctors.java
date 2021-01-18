@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 
 import com.example.saathi.data.Constants;
 import com.example.saathi.data.Person;
+import com.example.saathi.data.PersonAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +26,7 @@ import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 import static com.example.saathi.data.Constants.DB_DOCTORS;
 import static com.example.saathi.data.Constants.DB_NAME;
+import static com.example.saathi.data.Constants.DB_PHONE;
 import static com.example.saathi.data.Constants.DB_SPECIALITY;
 import static com.example.saathi.data.Constants.DB_UID;
 
@@ -32,7 +35,7 @@ public class YourDoctors extends AppCompatActivity {
 
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     static String TAG = "YourDoctors";
-    List<Person> arrayList = new ArrayList<>();
+    ArrayList<Person> arrayList = new ArrayList<>();
     ArrayList<String> uidList = new ArrayList<>();
 
     @Override
@@ -76,7 +79,8 @@ public class YourDoctors extends AppCompatActivity {
                             if (task.isSuccessful()){
                                 for (DocumentSnapshot document : task.getResult().getDocuments()){
                                     arrayList.add(new Person(document.get(DB_NAME).toString()
-                                            , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString(), COLLECTION_DOCTOR));
+                                            , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
+                                            , COLLECTION_DOCTOR, document.get(DB_PHONE).toString()));
                                     Log.d(TAG, "person added");
                                 }
                             }
@@ -84,8 +88,9 @@ public class YourDoctors extends AppCompatActivity {
                     });
         }
 
-
-
+        PersonAdapter adapter = new PersonAdapter(this, arrayList);
+        ListView listView =  findViewById(R.id.list_view_your_doc);
+        listView.setAdapter(adapter);
 
     }
 }

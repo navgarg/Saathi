@@ -30,14 +30,20 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 import static com.example.saathi.data.Constants.COLLECTION_PULSE;
+import static com.example.saathi.data.Constants.COLLECTION_SPO2;
+import static com.example.saathi.data.Constants.DB_DATE;
 
 public class PDashboard extends AppCompatActivity {
 
     static String type;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String docid = "";
+    static final String TAG = "PDashboard";
+    static SPO2Chart spo2Chart;
+    static PulseChart pulseChart;
+    static TempChart tempChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,7 @@ public class PDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_pdashboard);
 
         TextView greet = findViewById(R.id.pdash_greet);
-        //greet.setText("Hi " + user.getDisplayName() + "! Good Day!");
+        greet.setText("Hi " + user.getDisplayName() + "! Good Day!");
 
         findViewById(R.id.new_reading).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,40 +60,52 @@ public class PDashboard extends AppCompatActivity {
             }
         });
 
-        //new TempChart((BarChart) findViewById(R.id.temp_chart));
-        //todo: see why accessing db is a prob
-        new SPO2Chart((LineChart) findViewById(R.id.spo2_chart));
-        new PulseChart((LineChart) findViewById(R.id.pulse_chart), getData(COLLECTION_PULSE));
+        //todo: add bp chart
+        tempChart = new TempChart((BarChart) findViewById(R.id.temp_chart));
+        //spo2Chart = new SPO2Chart((LineChart) findViewById(R.id.spo2_chart));
+        //pulseChart = new PulseChart((LineChart) findViewById(R.id.pulse_chart));
 
     }
+    //todo: they're working indi, why not together? ask dad abt how to do and know all are diff - can we make diff methods and not care abt efficiency? ig it'll be better then
 
     public static ArrayList<Chart_Data> getData(final String docType){
-        arrayList.clear();
         type = docType;
-
-        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", "uid")//todo: make uid dynamic
+        Log.d(TAG, "getData: ");
+        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Log.d(TAG, "in onComplete");
                         if (task.isSuccessful()) {
                             if(task.getResult() != null) {
                                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                     docid = document.getId();
+                                    Log.d(TAG, "docid: " + docid);
                                     db.collection(COLLECTION_PATIENT).document(docid).collection(type)
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
-                                                        if(task.getResult() != null) {
-                                                            for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                                arrayList.add(new Chart_Data(document.getId(), Float.parseFloat(document.get(type).toString())));
-
-                                                            }
+                                                        arrayList.clear();
+                                                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                                            arrayList.add(new Chart_Data(document.get(DB_DATE).toString(), Float.parseFloat(document.get(type).toString())));
+                                                            Log.d(TAG, "chart added: " + type + " added: " + Float.parseFloat(document.get(type).toString()));
                                                         }
-                                                    } else {
-                                                        Log.w(TAG, "Error getting documents. ", task.getException());
+//                                                        Log.d(TAG, "onComplete: arraylist: " + arrayList);
+//                                                        switch(type){
+//                                                            case COLLECTION_SPO2:
+//                                                                spo2Chart.drawSPO2Chart(arrayList);
+//                                                                break;
+//                                                            case COLLECTION_PULSE:
+//                                                                pulseChart.drawPulseChart(arrayList);
+//                                                                break;
+//                                                        }
+//                                                        return;
+                                                        //pulseChart.drawPulseChart(arrayList);
+                                                        //spo2Chart.drawSPO2Chart(arrayList);
+                                                        tempChart.drawTempChart(arrayList);
                                                     }
                                                 }
                                             });

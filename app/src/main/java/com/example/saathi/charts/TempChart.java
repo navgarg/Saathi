@@ -15,23 +15,24 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
+import static com.example.saathi.data.Constants.COLLECTION_TEMP;
+
 public class TempChart {
     BarChart barChart;
     ArrayList<BarEntry> barEntriesArrayList;
     ArrayList<String> labelName;
     ArrayList<Chart_Data> tempArrayList = new ArrayList<>();
-    private static final String SUB_COLLECTION_TEMP = "Temperature";
 
     public TempChart(BarChart barChart) {
         this.barChart = barChart;
         barEntriesArrayList = new ArrayList<>();
         labelName = new ArrayList<>();
-        drawTempChart();
+        tempArrayList.clear();
+        PDashboard.getData(COLLECTION_TEMP);
+        //drawTempChart();
     }
 
-    private void drawTempChart() {
-        tempArrayList.clear();
-        tempArrayList = PDashboard.getData(SUB_COLLECTION_TEMP);
+    public void drawTempChart(ArrayList<Chart_Data> tempArrayList) {
 
         Log.d("TempChart", " "+ tempArrayList);
 
@@ -44,7 +45,7 @@ public class TempChart {
         }
 
         //create new data set with all the data
-        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, SUB_COLLECTION_TEMP);
+        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, COLLECTION_TEMP);
         //choose many colors for each bar
         barDataSet.setColors(ColorTemplate.rgb("#dddddd"));
 

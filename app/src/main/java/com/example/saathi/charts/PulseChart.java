@@ -1,5 +1,7 @@
 package com.example.saathi.charts;
 
+import android.util.Log;
+
 import com.example.saathi.PDashboard;
 import com.example.saathi.data.Chart_Data;
 import com.github.mikephil.charting.charts.LineChart;
@@ -13,28 +15,33 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
+import static com.example.saathi.data.Constants.COLLECTION_PULSE;
+
 public class PulseChart {
     LineChart lineChart;
     ArrayList<Entry> barEntriesArrayList;
     ArrayList<Chart_Data> pulseArrayList = new ArrayList<>();
-    private static final String SUB_COLLECTION_PULSE = "Pulse";
+    static final String TAG = "PulseChart";
 
-    public PulseChart(LineChart lineChart, ArrayList<Chart_Data> pulseArrayList){
+    public PulseChart(LineChart lineChart){
+        pulseArrayList.clear();
+        PDashboard.getData(COLLECTION_PULSE);
+        Log.d(TAG, "array: " + pulseArrayList);
         this.lineChart = lineChart;
         barEntriesArrayList = new ArrayList<>();
-        pulseArrayList.clear();
-        this.pulseArrayList = pulseArrayList;
-        drawPulseChart();
+        //drawPulseChart();
     }
 
-    private void drawPulseChart(){
+    public void drawPulseChart(ArrayList<Chart_Data> pulseArrayList){
+        Log.d(TAG, "array2: " + pulseArrayList);
         for (int i =0; i < pulseArrayList.size();i++){
-            //String date = pulseArrayList.get(i).getDate();
             float pulse = pulseArrayList.get(i).getValue();
             barEntriesArrayList.add(new BarEntry(i, pulse));
+            Log.d(TAG, "drawPulseChart: array: " + barEntriesArrayList);
         }
 
-        LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList,SUB_COLLECTION_PULSE);
+        Log.d(TAG, "drawPulseChart: creating chart");
+        LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList, COLLECTION_PULSE);
         lineDataSet.setColors(ColorTemplate.rgb("#dddddd"));
 
         LineData lineData = new LineData(lineDataSet);

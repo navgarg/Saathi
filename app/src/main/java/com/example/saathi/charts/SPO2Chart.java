@@ -23,38 +23,30 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static com.example.saathi.data.Constants.COLLECTION_PULSE;
+import static com.example.saathi.data.Constants.COLLECTION_SPO2;
 
 public class SPO2Chart {
     LineChart lineChart;
     ArrayList<Entry> barEntriesArrayList;
     ArrayList<Chart_Data> spo2ArrayList = new ArrayList<>();
-    static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    static String docid = "";
-    private static final String SUB_COLLECTION_SPO2 = "SPO2";
+    static final String TAG = "SPO2Chart";
 
     public SPO2Chart(LineChart lineChart){
         this.lineChart = lineChart;
         barEntriesArrayList = new ArrayList<>();
-        drawSPO2Chart();
+        spo2ArrayList.clear();
+        PDashboard.getData(COLLECTION_SPO2);
+        Log.d(TAG, "array: " + spo2ArrayList);
     }
 
-    private void drawSPO2Chart(){
-        spo2ArrayList.clear();
-        spo2ArrayList = PDashboard.getData(SUB_COLLECTION_SPO2);
-
-        spo2ArrayList = PDashboard.arrayList;
-        Log.d("drawSPO2", "" + spo2ArrayList);
-
-        spo2ArrayList.add(new Chart_Data("key", 9));
-        //spo2ArrayList.add(new Chart_Data("key", 78));
-
-
-
+    public void drawSPO2Chart(ArrayList<Chart_Data> spo2ArrayList){
+        Log.d(TAG, "array:2 " + spo2ArrayList);
         for (int i =0; i < spo2ArrayList.size();i++){
             float spo2 = spo2ArrayList.get(i).getValue();
             barEntriesArrayList.add(new BarEntry(i, spo2));
         }
-        LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList, SUB_COLLECTION_SPO2);
+        LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList, COLLECTION_SPO2);
         lineDataSet.setColors(ColorTemplate.rgb("#dddddd"));
 
         LineData lineData = new LineData(lineDataSet);

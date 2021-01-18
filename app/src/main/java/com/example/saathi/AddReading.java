@@ -26,6 +26,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
+import static com.example.saathi.data.Constants.DB_DATE;
+import static com.example.saathi.data.Constants.DB_TIME;
+
 public class AddReading extends AppCompatActivity {
 
     String date, time;
@@ -96,19 +100,19 @@ public class AddReading extends AppCompatActivity {
 
                 if (!getIntent().getStringExtra("title").equals("Blood Pressure")) {
                     reading.put(getIntent().getStringExtra("title"), reading_val);
-                    reading.put("Date", date);
-                    reading.put("Time", time);
+                    reading.put(DB_DATE, date);
+                    reading.put(DB_TIME, time);
                     Log.d("AddReading", "" + date + " " + time);
                 }
                 else{
                     reading.put("Systolic", reading_val.split(" ")[0]);
                     reading.put("Diastolic", reading_val.split(" ")[1]);
-                    reading.put("Date", date);
-                    reading.put("Time", time);
+                    reading.put(DB_DATE, date);
+                    reading.put(DB_TIME, time);
                 }
 
                 if (!reading_val.equals("")) {
-                    db.collection("Patient").document(PDashboard.docid).collection(getIntent().getStringExtra("title")).document()
+                    db.collection(COLLECTION_PATIENT).document(PDashboard.docid).collection(getIntent().getStringExtra("title")).document()
                             .set(reading)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

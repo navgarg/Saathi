@@ -47,6 +47,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:id="@+id/talk_to_me"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_button"
+            android:text="Talk To Me"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textAllCaps="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/temp_chart"
             android:layout_margin="10dp"

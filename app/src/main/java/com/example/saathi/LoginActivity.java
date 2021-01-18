@@ -65,16 +65,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //todo: uncomment when error in PDashboard is removed
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        //if user is already signed in
-//        if (mAuth.getCurrentUser() != null) {
-//            finish();
-//            startActivity(new Intent(this, PDashboard.class));
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //if user is already signed in
+        if (mAuth.getCurrentUser() != null) {
+            sendIntent();
+            finish();
+        }
+    }
 
 
     @Override
@@ -106,54 +105,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            Toast.makeText(LoginActivity.this, "LogIn successful!", Toast.LENGTH_LONG).show();
-                            final FirebaseUser user = mAuth.getCurrentUser();
-                            //startActivity(new Intent(LoginActivity.this, PDashboard.class));
-                            db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                if(task.getResult() != null) {
-                                                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                        //todo: user is a registered patient
-                                                        Log.d(TAG, "signin successful, registered patient");
-                                                    }
-
-                                                }
-                                            } else {
-                                                Log.w(TAG, "Error getting documents: patient db ", task.getException());
-                                                db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
-                                                        .get()
-                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    if(task.getResult() != null) {
-                                                                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                                            //todo: user is a registered doctor
-                                                                            Log.d(TAG, "signin successful, registered doctor");
-                                                                        }
-
-                                                                    }
-                                                                } else {
-                                                                    Log.w(TAG, "Error getting documents: doctor db ", task.getException());
-                                                                    startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                                                                    Toast.makeText(LoginActivity.this, "Kindly fill in your details", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            }
-                                                        });
-                                            }
-                                        }
-                                    });
-
+                            sendIntent();
                         } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        }
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    }
                     }
                 });
+
     }
 
 
@@ -161,4 +119,54 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
+    private void sendIntent(){
+        Log.d(TAG, "signInWithCredential:success");
+        Toast.makeText(LoginActivity.this, "LogIn successful!", Toast.LENGTH_LONG).show();
+        final FirebaseUser user = mAuth.getCurrentUser();
+        //startActivity(new Intent(LoginActivity.this, PDashboard.class));
+        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(task.getResult() != null) {
+                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                    //todo: user is a registered patient
+                                    startActivity(new Intent(LoginActivity.this, PDashboard.class));
+                                    Log.d(TAG, "signin successful, registered patient");
+                                }
+
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents: patient db ", task.getException());
+                            db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                if(task.getResult() != null) {
+                                                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                                        //todo: user is a registered doctor
+                                                        startActivity(new Intent(LoginActivity.this, DDashboard.class));
+                                                        Log.d(TAG, "signin successful, registered doctor");
+                                                    }
+
+                                                }
+                                            } else {
+                                                Log.w(TAG, "Error getting documents: doctor db ", task.getException());
+                                                startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                                                Toast.makeText(LoginActivity.this, "Kindly fill in your details", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+
+    }
+
 }

@@ -32,6 +32,7 @@ import static com.example.saathi.data.Constants.DB_TIME;
 
 public class AddReading extends AppCompatActivity {
 
+    //working well :)
     String date, time;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();

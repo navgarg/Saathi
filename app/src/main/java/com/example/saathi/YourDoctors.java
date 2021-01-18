@@ -32,6 +32,7 @@ import static com.example.saathi.data.Constants.DB_UID;
 
 public class YourDoctors extends AppCompatActivity {
 
+    //getting array from db working :)
 
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     static String TAG = "YourDoctors";
@@ -51,8 +52,6 @@ public class YourDoctors extends AppCompatActivity {
             }
         });
 
-        Log.d(TAG, "getting data");
-        //todo: get data from db
         //todo: update to use firebase uid
         db.collection(COLLECTION_PATIENT)
                 .whereEqualTo(DB_UID, "9Jid11RmKQSOXMItthSSVFAB1OT2")
@@ -63,34 +62,30 @@ public class YourDoctors extends AppCompatActivity {
                         if (task.isSuccessful()){
                             for (DocumentSnapshot document : task.getResult().getDocuments()){
                                 uidList = (ArrayList) document.get(DB_DOCTORS);
-                                Log.d(TAG, "uidList: "+ uidList);
+                                for (String uid : uidList){
+                                    db.collection(COLLECTION_DOCTOR)
+                                            .whereEqualTo(DB_UID, uid)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()){
+                                                        for (DocumentSnapshot document : task.getResult().getDocuments()){
+                                                            arrayList.add(new Person(document.get(DB_NAME).toString()
+                                                                    , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
+                                                                    , COLLECTION_DOCTOR, document.get(DB_PHONE).toString()));
+                                                        }
+                                                        PersonAdapter adapter = new PersonAdapter(YourDoctors.this, arrayList);
+                                                        ListView listView =  findViewById(R.id.list_view_your_doc);
+                                                        listView.setAdapter(adapter);
+                                                    }
+                                                }
+                                            });
+                                }
                             }
                         }
                     }
                 });
-
-        for (String uid : uidList){
-            db.collection(COLLECTION_DOCTOR)
-                    .whereEqualTo(DB_UID, uid)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-                                for (DocumentSnapshot document : task.getResult().getDocuments()){
-                                    arrayList.add(new Person(document.get(DB_NAME).toString()
-                                            , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
-                                            , COLLECTION_DOCTOR, document.get(DB_PHONE).toString()));
-                                    Log.d(TAG, "person added");
-                                }
-                            }
-                        }
-                    });
-        }
-
-        PersonAdapter adapter = new PersonAdapter(this, arrayList);
-        ListView listView =  findViewById(R.id.list_view_your_doc);
-        listView.setAdapter(adapter);
 
     }
 }

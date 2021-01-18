@@ -41,6 +41,17 @@ public class NewDoctor extends AppCompatActivity {
         setContentView(R.layout.activity_new_doctor);
         Log.d(TAG, "getting data");
 
+        final RecyclerView chooseDoctorRecyclerView = findViewById(R.id.recycler_view_choose_doc);
+
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
+        chooseDoctorRecyclerView.setLayoutManager(recyclerLayoutManager);
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(chooseDoctorRecyclerView.getContext(),
+                        recyclerLayoutManager.getOrientation());
+        chooseDoctorRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
         db.collection(COLLECTION_DOCTOR)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -55,29 +66,18 @@ public class NewDoctor extends AppCompatActivity {
                                 Log.d(TAG, "person added "+ document.get(DB_NAME).toString() + " " +
                                         document.get(DB_SPECIALITY).toString() + " " + document.get(DB_UID).toString());
                             }
+                            ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(getArray(),NewDoctor.this);
+                            chooseDoctorRecyclerView.setAdapter(recyclerViewAdapter);
+                            Log.d(TAG, "arraylist sent");
+
                         }
                     }
                 });
-
-        RecyclerView chooseDoctorRecyclerView = findViewById(R.id.recycler_view_choose_doc);
-
-        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        chooseDoctorRecyclerView.setLayoutManager(recyclerLayoutManager);
-
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(chooseDoctorRecyclerView.getContext(),
-                        recyclerLayoutManager.getOrientation());
-        chooseDoctorRecyclerView.addItemDecoration(dividerItemDecoration);
-
-
-        ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(getArray(),this);
-        chooseDoctorRecyclerView.setAdapter(recyclerViewAdapter);
-        Log.d(TAG, "arraylist sent");
     }
 
     private List<Person> getArray(){
         //todo: safe delete this method cuz we're already getting data in onCreate
-        arrayList.add(new Person("Manish Garg", "Pulmonologist", "uid", COLLECTION_DOCTOR, "9868104455"));
+        arrayList.add(new Person("Manish Garg", "hello", "uid", COLLECTION_DOCTOR, "9868104455"));
         return arrayList;
     }
 }

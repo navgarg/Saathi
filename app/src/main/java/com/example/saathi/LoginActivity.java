@@ -120,6 +120,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    //todo: patient login checked, idk abt doc/unregistered.. no more email ids :( but it should work
+
     private void sendIntent(){
         Log.d(TAG, "signInWithCredential:success");
         Toast.makeText(LoginActivity.this, "LogIn successful!", Toast.LENGTH_LONG).show();

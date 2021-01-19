@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         //if user is already signed in
         if (mAuth.getCurrentUser() != null) {
             sendIntent();
+            //finish();
         }
     }
 
@@ -123,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void sendIntent(){
         Log.d(TAG, "signInWithCredential:success");
-        Toast.makeText(LoginActivity.this, "LogIn successful!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(LoginActivity.this, "LogIn successful!", Toast.LENGTH_LONG).show();
         final FirebaseUser user = mAuth.getCurrentUser();
         //startActivity(new Intent(LoginActivity.this, PDashboard.class));
         db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
@@ -169,5 +170,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
 
 }

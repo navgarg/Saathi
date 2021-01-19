@@ -25,6 +25,7 @@ import java.util.List;
 import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 import static com.example.saathi.data.Constants.DB_AGE;
+import static com.example.saathi.data.Constants.DB_DOCTORS;
 import static com.example.saathi.data.Constants.DB_NAME;
 import static com.example.saathi.data.Constants.DB_PHONE;
 import static com.example.saathi.data.Constants.DB_SEX;
@@ -40,7 +41,7 @@ public class NewDoctor extends AppCompatActivity {
     static String docid = "";
     List<Person> arrayListAllDoc = new ArrayList<>();
     List<Person> arrayList = new ArrayList<>();
-    List<Person> arraylistCurrDoc = new ArrayList<>();
+    List<String> arraylistCurrDoc = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,6 @@ public class NewDoctor extends AppCompatActivity {
                         recyclerLayoutManager.getOrientation());
         chooseDoctorRecyclerView.addItemDecoration(dividerItemDecoration);
 
-
-        //todo: filter doctors who're already present
         db.collection(COLLECTION_DOCTOR)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -86,11 +85,7 @@ public class NewDoctor extends AppCompatActivity {
                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                if (task.isSuccessful()) {
                                                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                       //todo: get array and store uids
-                                                       Person person = new Person(document.get(DB_NAME).toString(),
-                                                               document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
-                                                               , COLLECTION_DOCTOR, document.get(DB_PHONE).toString());
-                                                       arraylistCurrDoc.add(person);
+                                                       arraylistCurrDoc = (List<String>) document.get(DB_DOCTORS);
                                                        Log.d(TAG, "person added2 " + arrayListAllDoc);
                                                    }
 
@@ -99,7 +94,7 @@ public class NewDoctor extends AppCompatActivity {
                                        });
 
         for (int i = 0; i<arraylistCurrDoc.size(); i++){
-            if (!arraylistCurrDoc.contains(arrayListAllDoc.get(i))){
+            if (!arraylistCurrDoc.contains(arrayListAllDoc.get(i).getUid())){
                 arrayList.add(arrayListAllDoc.get(i));
             }
 

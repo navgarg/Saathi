@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 
 public class PersonAdapter extends ArrayAdapter<Person> {
@@ -47,7 +48,7 @@ public class PersonAdapter extends ArrayAdapter<Person> {
         TextView info = listItemView.findViewById(R.id.list_info);
         info.setText(currentPerson.getInfo());
 
-        if (currentPerson.getProfession().equals(COLLECTION_PATIENT)){
+        if (currentPerson.getProfession().equals(COLLECTION_DOCTOR)){
             details.setVisibility(View.GONE);
         }
         else{

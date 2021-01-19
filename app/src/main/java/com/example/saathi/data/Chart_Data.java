@@ -15,17 +15,11 @@ import static android.content.ContentValues.TAG;
 public class Chart_Data {
     String date;
     float value;
-    float diastolic, systolic;
     public Chart_Data(String date, float value) {
         this.date = date;
         this.value = value;
     }
 
-    public Chart_Data(String date, float systolic, float diastolic) {
-        this.date = date;
-        this.systolic = systolic;
-        this.diastolic = diastolic;
-    }
 
     public String getDate() {
         return date;
@@ -33,11 +27,5 @@ public class Chart_Data {
 
     public float getValue() {
         return value;
-    }
-
-    public float getDiastolic(){ return diastolic;}
-
-    public float getSystolic() {
-        return systolic;
     }
 }

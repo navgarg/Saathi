@@ -16,41 +16,49 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 
 import static com.example.saathi.data.Constants.COLLECTION_TEMP;
+import static com.example.saathi.data.Constants.DB_DIASTOLIC;
+import static com.example.saathi.data.Constants.DB_SYSTOLIC;
 
-public class TempChart {
+public class BPChart {
     BarChart barChart;
-    ArrayList<BarEntry> barEntriesArrayList;
+    ArrayList<BarEntry> barEntriesArrayList1, barEntriesArrayList2;
     ArrayList<String> labelName;
-    ArrayList<Chart_Data> tempArrayList = new ArrayList<>();
+    ArrayList<Chart_Data> systolic = new ArrayList<>();
+    ArrayList<Chart_Data> diastolic = new ArrayList<>();
 
-    public TempChart(BarChart barChart) {
+    public BPChart(BarChart barChart) {
         this.barChart = barChart;
-        barEntriesArrayList = new ArrayList<>();
+        barEntriesArrayList1 = new ArrayList<>();
+        barEntriesArrayList2 = new ArrayList<>();
         labelName = new ArrayList<>();
-        tempArrayList.clear();
-        PDashboard.getTempData();
+        systolic.clear();
+        diastolic.clear();
+        PDashboard.getBPData();
         //drawTempChart();
     }
 
-    public void drawTempChart(ArrayList<Chart_Data> tempArrayList) {
+    public void drawBPChart(ArrayList<Chart_Data> systolic, ArrayList<Chart_Data> diastolic) {
 
-        Log.d("TempChart", " "+ tempArrayList);
+        Log.d("BPChart", " "+ systolic + " " + diastolic);//empty list here
 
-        for (int i = 0; i < tempArrayList.size(); i++) {
-            String date = tempArrayList.get(i).getDate();
-            float temp = tempArrayList.get(i).getValue();
-            barEntriesArrayList.add(new BarEntry(i, temp));
+        for (int i = 0; i < systolic.size(); i++) {
+            String date = systolic.get(i).getDate();
+            float sys = systolic.get(i).getValue();
+            float dia = diastolic.get(i).getValue();
+            barEntriesArrayList1.add(new BarEntry(i, sys));
+            barEntriesArrayList2.add(new BarEntry(i, dia));
             //add label for each new entry
             labelName.add(date);
         }
 
         //create new data set with all the data
-        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, COLLECTION_TEMP);
-        //choose many colors for each bar
-        barDataSet.setColors(ColorTemplate.rgb("#dddddd"));
+        BarDataSet barDataSet1 = new BarDataSet(barEntriesArrayList1, DB_SYSTOLIC);
+        barDataSet1.setColors(ColorTemplate.rgb("#dddddd"));
+        BarDataSet barDataSet2 = new BarDataSet(barEntriesArrayList2, DB_DIASTOLIC);
+        barDataSet1.setColors(ColorTemplate.rgb("#dddddd"));
 
         //set data to the chart
-        BarData barData = new BarData(barDataSet);
+        BarData barData = new BarData(barDataSet1, barDataSet2);
         barChart.setData(barData);
         barChart.getDescription().setEnabled(false);
         barChart.getLegend().setEnabled(false);

@@ -43,7 +43,6 @@ public class YourPatients extends AppCompatActivity {
         setContentView(R.layout.activity_your_patients);
 
         Log.d(TAG, "getting data");
-        //todo: get data from db
         //todo: update to use firebase uid
         db.collection(COLLECTION_DOCTOR)
                 .whereEqualTo(DB_UID, "uid")
@@ -55,34 +54,33 @@ public class YourPatients extends AppCompatActivity {
                             for (DocumentSnapshot document : task.getResult().getDocuments()){
                                 uidList = (ArrayList) document.get(DB_PATIENTS);
                                 Log.d(TAG, "uidList: "+ uidList);
+                                for (String uid : uidList){
+                                    db.collection(COLLECTION_PATIENT)
+                                            .whereEqualTo(DB_UID, uid)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()){
+                                                        for (DocumentSnapshot document : task.getResult().getDocuments()){
+                                                            arrayList.add(new Person(document.get(DB_NAME).toString()
+                                                                    , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
+                                                                    , COLLECTION_PATIENT, document.get(DB_PHONE).toString()
+                                                                    , document.getBoolean(DB_IS_CRITICAL)));
+                                                            Log.d(TAG, "person added, list: " + arrayList);
+                                                        }
+                                                        PersonAdapter adapter = new PersonAdapter(YourPatients.this, arrayList);
+                                                        ListView listView =  findViewById(R.id.list_view_your_pat);
+                                                        listView.setAdapter(adapter);
+                                                    }
+                                                }
+                                            });
+                                }
                             }
                         }
                     }
                 });
 
-        for (String uid : uidList){
-            db.collection(COLLECTION_PATIENT)
-                    .whereEqualTo(DB_UID, uid)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-                                for (DocumentSnapshot document : task.getResult().getDocuments()){
-                                    arrayList.add(new Person(document.get(DB_NAME).toString()
-                                            , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
-                                            , COLLECTION_PATIENT, document.get(DB_PHONE).toString()
-                                            , document.getBoolean(DB_IS_CRITICAL)));
-                                    Log.d(TAG, "person added, list: " + arrayList);
-                                }
-                            }
-                        }
-                    });
-        }
-
-        PersonAdapter adapter = new PersonAdapter(this, arrayList);
-        ListView listView =  findViewById(R.id.list_view_your_pat);
-        listView.setAdapter(adapter);
 
 
 

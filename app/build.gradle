@@ -41,8 +41,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
 
-    implementation 'com.tyagiabhinav:androiddialogflowchatbot:0.1.9'
-    implementation 'com.google.cloud:google-cloud-dialogflow:2.2.0'
+//    implementation 'com.google.cloud:google-cloud-dialogflow:2.2.0'
     implementation 'io.grpc:grpc-okhttp:1.31.1'
 
     testImplementation 'junit:junit:4.13.1'

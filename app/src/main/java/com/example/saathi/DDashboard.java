@@ -1,8 +1,11 @@
 package com.example.saathi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +25,22 @@ public class DDashboard extends AppCompatActivity {
         TextView greet = findViewById(R.id.ddash_greet);
         //greet.setText("Hi " + user.getDisplayName() + "! Good Day!");
         greet.setText("Hi " + "Navya" + "! Good Day!");
+
+        CardView newPatients = findViewById(R.id.new_patients);
+        newPatients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(DDashboard.this, YourPatients.class));
+            }
+        });
+
+        CardView yourPatients = findViewById(R.id.your_patients);
+        yourPatients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DDashboard.this, YourPatients.class));
+            }
+        });
 
         //todo
     }

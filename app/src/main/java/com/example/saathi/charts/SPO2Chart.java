@@ -36,7 +36,7 @@ public class SPO2Chart {
         this.lineChart = lineChart;
         barEntriesArrayList = new ArrayList<>();
         spo2ArrayList.clear();
-        PDashboard.getData(COLLECTION_SPO2);
+        PDashboard.getSPO2Data();
         Log.d(TAG, "array: " + spo2ArrayList);
     }
 

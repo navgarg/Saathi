@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/action_your_doctors"
+        android:title="Patients"
+        android:iconTint="#FFFFFF"
+        android:icon="@mipmap/pat_icon_round"
+        app:showAsAction="withText"
+        android:enabled="true"
+        />
+
+    <item
+        android:id="@+id/action_pdash"
+        android:title="Home"
+        android:enabled="true"
+        android:iconTint="#FFFFFF"
+        android:icon="@mipmap/assignment_logo"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/action_map"
+        android:iconTint="#FFFFFF"
+        android:enabled="true"
+        app:showAsAction="withText"
+        android:title="Map"/>
+
+    <item
+        android:id="@+id/action_goto_list"
+        android:iconTint="#FFFFFF"
+        android:title="Locations"/>
+</menu>

@@ -3,9 +3,13 @@ package com.example.saathi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ListActivity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +24,8 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -77,6 +83,26 @@ public class PDashboard extends AppCompatActivity {
         spo2Chart = new SPO2Chart((LineChart) findViewById(R.id.spo2_chart));
         pulseChart = new PulseChart((LineChart) findViewById(R.id.pulse_chart));
         bpChart = new BPChart((BarChart) findViewById(R.id.bp_chart));
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.getMenu().findItem(R.id.action_pdash).setChecked(true);
+        navigation.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#00c6ae")));
+        navigation.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_your_doctors:
+                        startActivity(new Intent(PDashboard.this, YourDoctors.class));
+                        break;
+                    case R.id.action_pdash:
+                        startActivity(new Intent(PDashboard.this, PDashboard.class));
+                        break;
+                }
+                return false;
+            }
+        });
+
 
     }
 

@@ -71,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         //if user is already signed in
         if (mAuth.getCurrentUser() != null) {
             sendIntent();
-            finish();
         }
     }
 
@@ -135,9 +134,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if(task.getResult() != null) {
                                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                    //todo: user is a registered patient
                                     startActivity(new Intent(LoginActivity.this, PDashboard.class));
                                     Log.d(TAG, "signin successful, registered patient");
+                                    finish();
                                 }
 
                             }
@@ -151,9 +150,9 @@ public class LoginActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 if(task.getResult() != null) {
                                                     for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                        //todo: user is a registered doctor
                                                         startActivity(new Intent(LoginActivity.this, DDashboard.class));
                                                         Log.d(TAG, "signin successful, registered doctor");
+                                                        finish();
                                                     }
 
                                                 }

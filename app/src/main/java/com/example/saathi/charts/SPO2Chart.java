@@ -42,12 +42,15 @@ public class SPO2Chart {
 
     public void drawSPO2Chart(ArrayList<Chart_Data> spo2ArrayList){
         Log.d(TAG, "array:2 " + spo2ArrayList);
+        if(spo2ArrayList.size() > 7) {
+            spo2ArrayList = (ArrayList<Chart_Data>) spo2ArrayList.subList(spo2ArrayList.size()-7, spo2ArrayList.size());
+        }
         for (int i =0; i < spo2ArrayList.size();i++){
             float spo2 = spo2ArrayList.get(i).getValue();
             barEntriesArrayList.add(new BarEntry(i, spo2));
         }
         LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList, COLLECTION_SPO2);
-        lineDataSet.setColors(ColorTemplate.rgb("#dddddd"));
+        lineDataSet.setColors(ColorTemplate.rgb("#F95A2C"));
 
         LineData lineData = new LineData(lineDataSet);
         lineChart.setData(lineData);

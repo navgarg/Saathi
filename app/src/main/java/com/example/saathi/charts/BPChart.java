@@ -40,6 +40,11 @@ public class BPChart {
     public void drawBPChart(ArrayList<Chart_Data> systolic, ArrayList<Chart_Data> diastolic) {
 
         Log.d("BPChart", " "+ systolic + " " + diastolic);//empty list here
+        if(systolic.size() > 7 && diastolic.size() > 7) {
+            systolic = (ArrayList<Chart_Data>) systolic.subList(systolic.size()-7, systolic.size());
+            diastolic = (ArrayList<Chart_Data>) diastolic.subList(diastolic.size()-7, diastolic.size());
+        }
+
 
         for (int i = 0; i < systolic.size(); i++) {
             String date = systolic.get(i).getDate();
@@ -53,9 +58,9 @@ public class BPChart {
 
         //create new data set with all the data
         BarDataSet barDataSet1 = new BarDataSet(barEntriesArrayList1, DB_SYSTOLIC);
-        barDataSet1.setColors(ColorTemplate.rgb("#dddddd"));
+        barDataSet1.setColors(ColorTemplate.rgb("#00C6AE"));
         BarDataSet barDataSet2 = new BarDataSet(barEntriesArrayList2, DB_DIASTOLIC);
-        barDataSet1.setColors(ColorTemplate.rgb("#dddddd"));
+        barDataSet1.setColors(ColorTemplate.rgb("#F95A2C"));
 
         //set data to the chart
         BarData barData = new BarData(barDataSet1, barDataSet2);

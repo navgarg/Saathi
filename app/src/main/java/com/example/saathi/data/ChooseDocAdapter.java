@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.saathi.NewDoctor;
 import com.example.saathi.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -118,6 +119,7 @@ public class ChooseDocAdapter extends RecyclerView.Adapter<ChooseDocAdapter.View
                             Toast.makeText(ChooseDocAdapter.this.context, "Request sent", Toast.LENGTH_SHORT).show();
                             Toast.makeText(ChooseDocAdapter.this.context, "You will be able " +
                                     "to contact the doctor once he approves your request.", Toast.LENGTH_LONG).show();
+                            selectionState.setChecked(false);
 
                         }
                     });

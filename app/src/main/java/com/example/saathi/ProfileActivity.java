@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Log.d(TAG, "in inCreate");
 
-        //todo: in case there has to be a profile page as part of the app
+        //todo: update data in db
         Intent intent = getIntent();
 
         name = findViewById(R.id.profile_name);

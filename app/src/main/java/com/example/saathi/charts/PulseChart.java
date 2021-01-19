@@ -34,7 +34,11 @@ public class PulseChart {
 
     public void drawPulseChart(ArrayList<Chart_Data> pulseArrayList){
         Log.d(TAG, "array2: " + pulseArrayList);
-        for (int i =0; i < pulseArrayList.size();i++){
+        if(pulseArrayList.size() > 7) {
+            pulseArrayList = (ArrayList<Chart_Data>) pulseArrayList.subList(pulseArrayList.size()-7, pulseArrayList.size());
+        }
+
+        for (int i = 0; i < pulseArrayList.size(); i++) {
             float pulse = pulseArrayList.get(i).getValue();
             barEntriesArrayList.add(new BarEntry(i, pulse));
             Log.d(TAG, "drawPulseChart: array: " + barEntriesArrayList);
@@ -42,7 +46,7 @@ public class PulseChart {
 
         Log.d(TAG, "drawPulseChart: creating chart");
         LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList, COLLECTION_PULSE);
-        lineDataSet.setColors(ColorTemplate.rgb("#dddddd"));
+        lineDataSet.setColors(ColorTemplate.rgb("#F95A2C"));
 
         LineData lineData = new LineData(lineDataSet);
         lineChart.setData(lineData);

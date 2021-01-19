@@ -13,6 +13,8 @@ import com.example.saathi.data.ChooseDocAdapter;
 import com.example.saathi.data.Person;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,9 +33,14 @@ import static com.example.saathi.data.Constants.DB_UID;
 
 public class NewDoctor extends AppCompatActivity {
 
+
+    static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     static String TAG = "NewDoctor";
+    static String docid = "";
+    List<Person> arrayListAllDoc = new ArrayList<>();
     List<Person> arrayList = new ArrayList<>();
+    List<Person> arraylistCurrDoc = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +70,43 @@ public class NewDoctor extends AppCompatActivity {
                                 Person person = new Person(document.get(DB_NAME).toString(),
                                         document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
                                         , COLLECTION_DOCTOR, document.get(DB_PHONE).toString());
-                                arrayList.add(person);
-                                Log.d(TAG, "person added "+ arrayList);
+                                arrayListAllDoc.add(person);
+                                Log.d(TAG, "person added1 "+ arrayListAllDoc);
                             }
-                            ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(arrayList,NewDoctor.this);
-                            chooseDoctorRecyclerView.setAdapter(recyclerViewAdapter);
-                            Log.d(TAG, "arraylist sent");
+
 
                         }
                     }
                 });
+
+        db.collection(COLLECTION_PATIENT).whereEqualTo(DB_UID, user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                               if (task.isSuccessful()) {
+                                                   for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                                       //todo: get array and store uids
+                                                       Person person = new Person(document.get(DB_NAME).toString(),
+                                                               document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
+                                                               , COLLECTION_DOCTOR, document.get(DB_PHONE).toString());
+                                                       arraylistCurrDoc.add(person);
+                                                       Log.d(TAG, "person added2 " + arrayListAllDoc);
+                                                   }
+
+                                               }
+                                           }
+                                       });
+
+        for (int i = 0; i<arraylistCurrDoc.size(); i++){
+            if (!arraylistCurrDoc.contains(arrayListAllDoc.get(i))){
+                arrayList.add(arrayListAllDoc.get(i));
+            }
+
+        }
+
+        ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(arrayList,NewDoctor.this);
+        chooseDoctorRecyclerView.setAdapter(recyclerViewAdapter);
+        Log.d(TAG, "arraylist sent");
     }
 }

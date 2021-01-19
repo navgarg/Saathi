@@ -120,6 +120,7 @@ public class AddReading extends AppCompatActivity {
                                 public void onSuccess(Void aVoid) {
                                     Log.d("AddReading", "DocumentSnapshot successfully written!");
                                     Toast.makeText(AddReading.this, "Reading added successfully!", Toast.LENGTH_LONG).show();
+                                    finish();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

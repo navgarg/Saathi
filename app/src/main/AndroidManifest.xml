@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".ChatActivity"></activity>
         <activity android:name=".NewDoctor" />
         <activity android:name=".YourPatients" />
         <activity android:name=".YourDoctors" />

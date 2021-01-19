@@ -66,14 +66,19 @@ public class PDashboard extends AppCompatActivity {
             }
         });
 
-        //todo: add bp chart
+        findViewById(R.id.talk_to_me).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PDashboard.this, ChatActivity.class));
+            }
+        });
+
         tempChart = new TempChart((BarChart) findViewById(R.id.temp_chart));
         spo2Chart = new SPO2Chart((LineChart) findViewById(R.id.spo2_chart));
         pulseChart = new PulseChart((LineChart) findViewById(R.id.pulse_chart));
         bpChart = new BPChart((BarChart) findViewById(R.id.bp_chart));
 
     }
-    //todo: they're working indi, why not together? ask dad abt how to do and know all are diff - can we make diff methods and not care abt efficiency? ig it'll be better then
 
     public static ArrayList<Chart_Data> getTempData(){
         Log.d(TAG, "getData: ");

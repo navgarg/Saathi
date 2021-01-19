@@ -23,7 +23,7 @@ public class DDashboard extends AppCompatActivity {
 
 
         TextView greet = findViewById(R.id.ddash_greet);
-        //greet.setText("Hi " + user.getDisplayName() + "! Good Day!");
+        //greet.setText("Hi Dr. " + user.getDisplayName() + "! Good Day!");
         greet.setText("Hi " + "Navya" + "! Good Day!");
 
         CardView newPatients = findViewById(R.id.new_patients);

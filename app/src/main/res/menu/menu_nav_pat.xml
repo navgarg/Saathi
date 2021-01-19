@@ -20,4 +20,12 @@
         android:icon="@mipmap/assignment_logo_round"
         app:showAsAction="withText"/>
 
+    <item
+        android:id="@+id/action_profile"
+        android:title="Profile"
+        android:enabled="true"
+        android:iconTint="@color/colorAccent"
+        android:icon="@mipmap/profile_icon_round"
+        app:showAsAction="withText"/>
+
 </menu>

@@ -4,31 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/action_your_doctors"
+        android:id="@+id/action_your_patients"
         android:title="Patients"
-        android:iconTint="#FFFFFF"
-        android:icon="@mipmap/pat_icon_round"
+        android:iconTint="@color/colorAccent"
+        android:icon="@mipmap/doc_icon_round"
         app:showAsAction="withText"
         android:enabled="true"
         />
 
     <item
-        android:id="@+id/action_pdash"
+        android:id="@+id/action_ddash"
         android:title="Home"
         android:enabled="true"
-        android:iconTint="#FFFFFF"
-        android:icon="@mipmap/assignment_logo"
+        android:iconTint="@color/colorAccent"
+        android:icon="@mipmap/assignment_logo_round"
         app:showAsAction="withText"/>
 
     <item
-        android:id="@+id/action_map"
-        android:iconTint="#FFFFFF"
+        android:id="@+id/action_profile"
+        android:title="Profile"
         android:enabled="true"
-        app:showAsAction="withText"
-        android:title="Map"/>
+        android:iconTint="@color/colorAccent"
+        android:icon="@mipmap/profile_icon_round"
+        app:showAsAction="withText"/>
 
-    <item
-        android:id="@+id/action_goto_list"
-        android:iconTint="#FFFFFF"
-        android:title="Locations"/>
 </menu>

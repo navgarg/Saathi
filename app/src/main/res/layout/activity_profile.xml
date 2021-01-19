@@ -35,21 +35,6 @@
             tools:text="Navya Garg"
             android:textSize="15sp"/>
 
-        <TextView
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email:"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
-
-        <EditText
-            android:id="@+id/profile_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="example@test.com"
-            android:textSize="15sp"/>
 
         <TextView
             android:layout_marginTop="16dp"
@@ -92,12 +77,23 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <EditText
-            android:id="@+id/profile_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Female"
-            android:textSize="15sp"/>
+        <RadioGroup
+            android:id="@+id/radio_group_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_button_male"
+                android:layout_width="wrap_content"
+                android:text="Male"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/radio_button_female"
+                android:layout_width="wrap_content"
+                android:text="Female"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
 
         <TextView
             android:layout_marginTop="16dp"
@@ -109,7 +105,7 @@
             android:textSize="18sp"/>
 
         <RadioGroup
-            android:id="@+id/radio_group"
+            android:id="@+id/radio_group_profession"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -127,7 +123,8 @@
         </RadioGroup>
 
         <Button
-            android:layout_margin="16dp"
+            android:id="@+id/profile_save_btn"
+            android:layout_margin="32dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"

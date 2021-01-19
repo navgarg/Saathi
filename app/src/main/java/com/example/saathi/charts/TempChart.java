@@ -1,9 +1,11 @@
 package com.example.saathi.charts;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.example.saathi.PDashboard;
 import com.example.saathi.data.Chart_Data;
+import com.example.saathi.data.Person;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -32,12 +34,13 @@ public class TempChart {
         //drawTempChart();
     }
 
-    public void drawTempChart(ArrayList<Chart_Data> tempArrayList) {
+    public void drawTempChart(ArrayList<Chart_Data> arrayList) {
 
-        Log.d("TempChart", " "+ tempArrayList);
+        Log.d("TempChart", " "+ arrayList);
 
-        if(tempArrayList.size() > 7) {
-            tempArrayList = (ArrayList<Chart_Data>) tempArrayList.subList(tempArrayList.size()-7, tempArrayList.size());
+        if(arrayList.size() > 7) {
+            tempArrayList.addAll(arrayList.subList(arrayList.size() - 7, arrayList.size()));
+            Log.d("TempChart", "drawTempChart: array: " + tempArrayList.size());
         }
 
         for (int i = 0; i < tempArrayList.size(); i++) {
@@ -51,6 +54,7 @@ public class TempChart {
         //create new data set with all the data
         BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, COLLECTION_TEMP);
         //choose many colors for each bar
+        Log.d("TempChart", "drawTempChart: dataset created");
         barDataSet.setColors(ColorTemplate.rgb("#F95A2C"));
 
         //set data to the chart
@@ -59,6 +63,8 @@ public class TempChart {
         barChart.getDescription().setEnabled(false);
         barChart.getLegend().setEnabled(false);
         barChart.getAxisRight().setEnabled(false);
+
+        Log.d("TempChart", "drawTempChart: data set");
 
         //Format the x-axis
         XAxis xAxis = barChart.getXAxis();

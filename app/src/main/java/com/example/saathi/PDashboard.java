@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -84,7 +85,14 @@ public class PDashboard extends AppCompatActivity {
         pulseChart = new PulseChart((LineChart) findViewById(R.id.pulse_chart));
         bpChart = new BPChart((BarChart) findViewById(R.id.bp_chart));
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_pdash);
+
+        Menu menu = navigation.getMenu();
+        menu.findItem(R.id.action_pdash).setIcon(R.mipmap.assignment_logo_round);
+        menu.findItem(R.id.action_your_doctors).setIcon(R.mipmap.doc_icon_round);
+        menu.findItem(R.id.action_profile).setIcon(R.mipmap.profile_icon_round);
+
+        navigation.setItemIconTintList(null);
         navigation.getMenu().findItem(R.id.action_pdash).setChecked(true);
         navigation.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#00c6ae")));
         navigation.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
@@ -97,6 +105,9 @@ public class PDashboard extends AppCompatActivity {
                         break;
                     case R.id.action_pdash:
                         startActivity(new Intent(PDashboard.this, PDashboard.class));
+                        break;
+                    case R.id.action_profile:
+                        startActivity(new Intent(PDashboard.this, ProfileActivity.class));
                         break;
                 }
                 return false;

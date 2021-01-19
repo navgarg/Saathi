@@ -32,10 +32,11 @@ public class PulseChart {
         //drawPulseChart();
     }
 
-    public void drawPulseChart(ArrayList<Chart_Data> pulseArrayList){
+    public void drawPulseChart(ArrayList<Chart_Data> arrayList){
         Log.d(TAG, "array2: " + pulseArrayList);
-        if(pulseArrayList.size() > 7) {
-            pulseArrayList = (ArrayList<Chart_Data>) pulseArrayList.subList(pulseArrayList.size()-7, pulseArrayList.size());
+        if(arrayList.size() > 7) {
+            pulseArrayList.addAll(arrayList.subList(arrayList.size() - 7, arrayList.size()));
+            Log.d("TempChart", "drawTempChart: array: " + pulseArrayList.size());
         }
 
         for (int i = 0; i < pulseArrayList.size(); i++) {

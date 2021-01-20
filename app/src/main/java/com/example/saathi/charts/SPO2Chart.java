@@ -37,13 +37,11 @@ public class SPO2Chart {
         barEntriesArrayList = new ArrayList<>();
         spo2ArrayList.clear();
         PDashboard.getSPO2Data();
-        Log.d(TAG, "array: " + spo2ArrayList);
     }
 
-    public void drawSPO2Chart(ArrayList<Chart_Data> spo2ArrayList){
-        Log.d(TAG, "array:2 " + spo2ArrayList);
-        if(spo2ArrayList.size() > 7) {
-            spo2ArrayList = (ArrayList<Chart_Data>) spo2ArrayList.subList(spo2ArrayList.size()-7, spo2ArrayList.size());
+    public void drawSPO2Chart(ArrayList<Chart_Data> arrayList){
+        if(arrayList.size() > 7) {
+            spo2ArrayList.addAll(arrayList.subList(arrayList.size() - 7, arrayList.size()));
         }
         for (int i =0; i < spo2ArrayList.size();i++){
             float spo2 = spo2ArrayList.get(i).getValue();

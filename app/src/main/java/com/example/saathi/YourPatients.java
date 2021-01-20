@@ -23,11 +23,14 @@ import java.util.List;
 
 import static com.example.saathi.data.Constants.COLLECTION_DOCTOR;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
+import static com.example.saathi.data.Constants.DB_AGE;
+import static com.example.saathi.data.Constants.DB_COLOR;
 import static com.example.saathi.data.Constants.DB_DOCTORS;
 import static com.example.saathi.data.Constants.DB_IS_CRITICAL;
 import static com.example.saathi.data.Constants.DB_NAME;
 import static com.example.saathi.data.Constants.DB_PATIENTS;
 import static com.example.saathi.data.Constants.DB_PHONE;
+import static com.example.saathi.data.Constants.DB_SEX;
 import static com.example.saathi.data.Constants.DB_SPECIALITY;
 import static com.example.saathi.data.Constants.DB_UID;
 
@@ -42,10 +45,9 @@ public class YourPatients extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_patients);
 
-        Log.d(TAG, "getting data");
         //todo: update to use firebase uid
         db.collection(COLLECTION_DOCTOR)
-                .whereEqualTo(DB_UID, "uid")
+                .whereEqualTo(DB_UID, "KYMtRiIwoqYf71IJWertbiQ7kDC3")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -53,7 +55,6 @@ public class YourPatients extends AppCompatActivity {
                         if (task.isSuccessful()){
                             for (DocumentSnapshot document : task.getResult().getDocuments()){
                                 uidList = (ArrayList) document.get(DB_PATIENTS);
-                                Log.d(TAG, "uidList: "+ uidList);
                                 for (String uid : uidList){
                                     db.collection(COLLECTION_PATIENT)
                                             .whereEqualTo(DB_UID, uid)
@@ -64,10 +65,11 @@ public class YourPatients extends AppCompatActivity {
                                                     if (task.isSuccessful()){
                                                         for (DocumentSnapshot document : task.getResult().getDocuments()){
                                                             arrayList.add(new Person(document.get(DB_NAME).toString()
-                                                                    , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
-                                                                    , COLLECTION_PATIENT, document.get(DB_PHONE).toString()
-                                                                    , document.getBoolean(DB_IS_CRITICAL)));
-                                                            Log.d(TAG, "person added, list: " + arrayList);
+                                                                    , document.get(DB_UID).toString()
+                                                                    , COLLECTION_PATIENT
+                                                                    , document.get(DB_AGE) + ", " + document.get(DB_SEX)
+                                                                    , document.get(DB_PHONE).toString()
+                                                                    , document.get(DB_COLOR).toString()));
                                                         }
                                                         PersonAdapter adapter = new PersonAdapter(YourPatients.this, arrayList);
                                                         ListView listView =  findViewById(R.id.list_view_your_pat);

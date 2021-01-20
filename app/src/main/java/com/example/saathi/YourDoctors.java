@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,6 +39,7 @@ import static com.example.saathi.data.Constants.DB_UID;
 
 public class YourDoctors extends AppCompatActivity {
 
+    static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //getting array from db working :)
 
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -59,7 +62,7 @@ public class YourDoctors extends AppCompatActivity {
 
         //todo: update to use firebase uid
         db.collection(COLLECTION_PATIENT)
-                .whereEqualTo(DB_UID, "9Jid11RmKQSOXMItthSSVFAB1OT2")
+                .whereEqualTo(DB_UID, user.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -67,6 +70,7 @@ public class YourDoctors extends AppCompatActivity {
                         if (task.isSuccessful()){
                             for (DocumentSnapshot document : task.getResult().getDocuments()){
                                 uidList = (ArrayList) document.get(DB_DOCTORS);
+                                Log.d(TAG, "onComplete: uidlist: " + uidList);
                                 for (String uid : uidList){
                                     db.collection(COLLECTION_DOCTOR)
                                             .whereEqualTo(DB_UID, uid)
@@ -75,14 +79,17 @@ public class YourDoctors extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()){
+                                                        Log.d(TAG, "onComplete: outside for 2: " + task.getResult().getDocuments());
                                                         for (DocumentSnapshot document : task.getResult().getDocuments()){
                                                             arrayList.add(new Person(document.get(DB_NAME).toString()
                                                                     , document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
                                                                     , COLLECTION_DOCTOR, document.get(DB_PHONE).toString()));
+                                                            Log.d(TAG, "onComplete: in for");
                                                         }
                                                         PersonAdapter adapter = new PersonAdapter(YourDoctors.this, arrayList);
                                                         ListView listView =  findViewById(R.id.list_view_your_doc);
                                                         listView.setAdapter(adapter);
+                                                        Log.d(TAG, "onComplete: adapter set: " + arrayList + "user: " + user.getUid());
                                                     }
                                                 }
                                             });

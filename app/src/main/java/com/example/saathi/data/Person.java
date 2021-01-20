@@ -1,8 +1,12 @@
 package com.example.saathi.data;
 
 public class Person {
-    private final String name, info, uid, profession, phone;
-    private boolean isCritical;
+    private final String name;
+    private final String info;
+    private final String uid;
+    private final String profession;
+    private final String phone;
+    private String color;
 
     public Person(String name, String info, String uid, String profession, String phone){
         this.info = info;
@@ -12,12 +16,12 @@ public class Person {
         this.phone = phone;
     }
 
-    public Person(String name, String info, String uid, String profession, String phone, boolean isCritical){
+    public Person(String name,  String uid,  String profession, String info,String phone, String color){
         this.info = info;
         this.name = name;
         this.uid = uid;
+        this.color = color;
         this.profession = profession;
-        this.isCritical = isCritical;
         this.phone = phone;
     }
 
@@ -37,8 +41,8 @@ public class Person {
         return profession;
     }
 
-    public boolean getIsCritical() {
-        return isCritical;
+    public String getColor() {
+        return color;
     }
 
     public String getPhone() {

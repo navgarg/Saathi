@@ -36,11 +36,9 @@ public class TempChart {
 
     public void drawTempChart(ArrayList<Chart_Data> arrayList) {
 
-        Log.d("TempChart", " "+ arrayList);
 
         if(arrayList.size() > 7) {
             tempArrayList.addAll(arrayList.subList(arrayList.size() - 7, arrayList.size()));
-            Log.d("TempChart", "drawTempChart: array: " + tempArrayList.size());
         }
 
         for (int i = 0; i < tempArrayList.size(); i++) {
@@ -54,7 +52,6 @@ public class TempChart {
         //create new data set with all the data
         BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, COLLECTION_TEMP);
         //choose many colors for each bar
-        Log.d("TempChart", "drawTempChart: dataset created");
         barDataSet.setColors(ColorTemplate.rgb("#F95A2C"));
 
         //set data to the chart
@@ -64,7 +61,6 @@ public class TempChart {
         barChart.getLegend().setEnabled(false);
         barChart.getAxisRight().setEnabled(false);
 
-        Log.d("TempChart", "drawTempChart: data set");
 
         //Format the x-axis
         XAxis xAxis = barChart.getXAxis();

@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import static com.example.saathi.PDashboard.docid;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 import static com.example.saathi.data.Constants.DB_DATE;
 import static com.example.saathi.data.Constants.DB_TIME;
@@ -113,7 +114,9 @@ public class AddReading extends AppCompatActivity {
                 }
 
                 if (!reading_val.equals("")) {
-                    db.collection(COLLECTION_PATIENT).document(PDashboard.docid).collection(getIntent().getStringExtra("title")).document()
+                    db.collection(COLLECTION_PATIENT).document(docid)
+                            .collection(getIntent().getStringExtra("title"))
+                            .document()
                             .set(reading)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

@@ -70,38 +70,37 @@ public class NewDoctor extends AppCompatActivity {
                                         document.get(DB_SPECIALITY).toString(), document.get(DB_UID).toString()
                                         , COLLECTION_DOCTOR, document.get(DB_PHONE).toString());
                                 arrayListAllDoc.add(person);
-                                Log.d(TAG, "person added1 "+ arrayListAllDoc);
                             }
+                            db.collection(COLLECTION_PATIENT).whereEqualTo(DB_UID, user.getUid())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                                    arraylistCurrDoc = (List<String>) document.get(DB_DOCTORS);
+                                                    Log.d(TAG, "person added2 " + arraylistCurrDoc);
+                                                }
 
+                                                for (int i = 0; i<arrayListAllDoc.size(); i++){
+                                                    Log.d(TAG, "onComplete: in for");
+                                                    if (!arraylistCurrDoc.contains(arrayListAllDoc.get(i).getUid())){
+                                                        arrayList.add(arrayListAllDoc.get(i));
+                                                        Log.d(TAG, "onComplete: person added3");
+                                                    }
 
+                                                    Log.d(TAG, "onComplete: array: " + arrayList);
+                                                    ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(arrayList,NewDoctor.this);
+                                                    chooseDoctorRecyclerView.setAdapter(recyclerViewAdapter);
+                                                    Log.d(TAG, "arraylist sent");
+
+                                                }
+
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });
-
-        db.collection(COLLECTION_PATIENT).whereEqualTo(DB_UID, user.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                           @Override
-                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                               if (task.isSuccessful()) {
-                                                   for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                       arraylistCurrDoc = (List<String>) document.get(DB_DOCTORS);
-                                                       Log.d(TAG, "person added2 " + arrayListAllDoc);
-                                                   }
-
-                                               }
-                                           }
-                                       });
-
-        for (int i = 0; i<arraylistCurrDoc.size(); i++){
-            if (!arraylistCurrDoc.contains(arrayListAllDoc.get(i).getUid())){
-                arrayList.add(arrayListAllDoc.get(i));
-            }
-
-        }
-
-        ChooseDocAdapter recyclerViewAdapter = new ChooseDocAdapter(arrayList,NewDoctor.this);
-        chooseDoctorRecyclerView.setAdapter(recyclerViewAdapter);
-        Log.d(TAG, "arraylist sent");
     }
 }

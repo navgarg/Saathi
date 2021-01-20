@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 234;
     private static final String TAG = "LoginActivity";
 
-    GoogleSignInClient mGoogleSignInClient;
+    public static GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth mAuth;
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            if(task.getResult() != null) {
+                            if (task.getResult() != null) {
                                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                     startActivity(new Intent(LoginActivity.this, PDashboard.class));
                                     Log.d(TAG, "signin successful, registered patient");
@@ -159,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 }
                                             } else {
                                                 Log.w(TAG, "Error getting documents: doctor db ", task.getException());
+                                                Log.d(TAG, "onComplete: new: ");
                                                 startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                                                 Toast.makeText(LoginActivity.this, "Kindly fill in your details", Toast.LENGTH_LONG).show();
                                             }

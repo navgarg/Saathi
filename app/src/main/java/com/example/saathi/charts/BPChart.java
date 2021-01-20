@@ -37,12 +37,10 @@ public class BPChart {
         //drawTempChart();
     }
 
-    public void drawBPChart(ArrayList<Chart_Data> systolic, ArrayList<Chart_Data> diastolic) {
-
-        Log.d("BPChart", " "+ systolic + " " + diastolic);//empty list here
-        if(systolic.size() > 7 && diastolic.size() > 7) {
-            systolic = (ArrayList<Chart_Data>) systolic.subList(systolic.size()-7, systolic.size());
-            diastolic = (ArrayList<Chart_Data>) diastolic.subList(diastolic.size()-7, diastolic.size());
+    public void drawBPChart(ArrayList<Chart_Data> arrayList1, ArrayList<Chart_Data> arrayList2) {
+        if(arrayList1.size() > 7 && arrayList2.size() >7) {
+            systolic.addAll(arrayList1.subList(arrayList1.size() - 7, arrayList1.size()));
+            diastolic.addAll(arrayList2.subList(arrayList2.size() - 7, arrayList2.size()));
         }
 
 
@@ -58,7 +56,7 @@ public class BPChart {
 
         //create new data set with all the data
         BarDataSet barDataSet1 = new BarDataSet(barEntriesArrayList1, DB_SYSTOLIC);
-        barDataSet1.setColors(ColorTemplate.rgb("#00C6AE"));
+        barDataSet1.setColors(ColorTemplate.rgb("#06A94D"));
         BarDataSet barDataSet2 = new BarDataSet(barEntriesArrayList2, DB_DIASTOLIC);
         barDataSet1.setColors(ColorTemplate.rgb("#F95A2C"));
 

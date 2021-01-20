@@ -15,33 +15,42 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-import static com.example.saathi.data.Constants.COLLECTION_PULSE;
+import static com.example.saathi.data.Constants.COLLECTION_SPO2;
 
-public class PulseChart {
+public class MoodChart {
     LineChart lineChart;
     ArrayList<Entry> barEntriesArrayList;
-    ArrayList<Chart_Data> pulseArrayList = new ArrayList<>();
-    static final String TAG = "PulseChart";
+    ArrayList<Chart_Data> moodArrayList = new ArrayList<>();
+    static final String TAG = "MoodChart";
 
-    public PulseChart(LineChart lineChart){
-        pulseArrayList.clear();
-        PDashboard.getPulseData();
+    public MoodChart(LineChart lineChart){
         this.lineChart = lineChart;
         barEntriesArrayList = new ArrayList<>();
-        //drawPulseChart();
+        moodArrayList.clear();
+        //PDashboard.getMoodData();
+        drawMoodChart();
+        Log.d(TAG, "array: " + moodArrayList);
     }
 
-    public void drawPulseChart(ArrayList<Chart_Data> arrayList){
-        if(arrayList.size() > 7) {
-            pulseArrayList.addAll(arrayList.subList(arrayList.size() - 7, arrayList.size()));
+    public void drawMoodChart(){
+        moodArrayList.add(new Chart_Data("", (float) 0.4));
+        moodArrayList.add(new Chart_Data("", (float) 0.3));
+        moodArrayList.add(new Chart_Data("", (float) 0.4));
+        moodArrayList.add(new Chart_Data("", (float) 0.2));
+        moodArrayList.add(new Chart_Data("", (float) 0.5));
+        moodArrayList.add(new Chart_Data("", (float) 0.6));
+        moodArrayList.add(new Chart_Data("", (float) 0.5));
+        Log.d(TAG, "getMoodData: array: " + moodArrayList);
+        Log.d(TAG, "array:2 " + moodArrayList);
+//        if(arrayList.size() > 7) {
+//            moodArrayList.addAll(arrayList.subList(arrayList.size() - 7, arrayList.size()));
+//            Log.d(TAG, "drawTempChart: array: " + moodArrayList.size());
+//        }
+        for (int i =0; i < moodArrayList.size();i++){
+            float spo2 = moodArrayList.get(i).getValue();
+            barEntriesArrayList.add(new BarEntry(i, spo2));
         }
-
-        for (int i = 0; i < pulseArrayList.size(); i++) {
-            float pulse = pulseArrayList.get(i).getValue();
-            barEntriesArrayList.add(new BarEntry(i, pulse));
-        }
-
-        LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList, COLLECTION_PULSE);
+        LineDataSet lineDataSet = new LineDataSet(barEntriesArrayList, COLLECTION_SPO2);
         lineDataSet.setColors(ColorTemplate.rgb("#F95A2C"));
 
         LineData lineData = new LineData(lineDataSet);
@@ -60,7 +69,9 @@ public class PulseChart {
         lineChart.invalidate();
 
         YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.setEnabled(false);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(20f);
+
     }
 }

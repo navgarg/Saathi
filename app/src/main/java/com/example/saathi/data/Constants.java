@@ -13,6 +13,10 @@ public class Constants {
     public static final String DB_PHONE = "phone";
     public static final String DB_SEX = "sex";
     public static final String DB_SEX_M = "M";
+    public static final String DB_COLOR = "color";
+    public static final String DB_COLOR_GREEN = "green";
+    public static final String DB_COLOR_AMBER = "amber";
+    public static final String DB_COLOR_RED = "red";
     public static final String DB_SEX_F = "F";
     public static final String DB_SYSTOLIC = "Systolic";
     public static final String DB_DIASTOLIC = "Diastolic";

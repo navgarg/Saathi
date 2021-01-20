@@ -38,32 +38,26 @@ public class ProfileActivity extends AppCompatActivity {
 
     EditText name, age, phone;
     RadioButton radioButtonPatient, radioButtonDoctor, radioButtonFemale, radioButtonMale;
-    RadioGroup radioGroupProfession, radioGroupGender;
+    RadioGroup radioGroupGender;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = "ProfileActivity";
+    boolean isPatient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Log.d(TAG, "in inCreate");
 
         name = findViewById(R.id.profile_name);
         age = findViewById(R.id.profile_age);
         phone = findViewById(R.id.profile_phone);
-        radioGroupProfession = findViewById(R.id.radio_group_profession);
         radioGroupGender = findViewById(R.id.radio_group_gender);
         radioButtonMale = findViewById(R.id.radio_button_male);
         radioButtonFemale = findViewById(R.id.radio_button_female);
-        radioButtonPatient = findViewById(R.id.radio_button_patient);
-        radioButtonDoctor = findViewById(R.id.radio_button_doctor);
 
-        Log.d(TAG, "in onCreate1");
-
-        Log.d(TAG, "getting data");
-        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", "uid")//todo: make uid dynamic
+        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -81,8 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         radioButtonMale.setChecked(true);
                                     }
                                     phone.setText(document.get(DB_PHONE).toString());
-                                    radioButtonPatient.setChecked(true);
-                                    Log.d(TAG, "Patient details set");
+                                    isPatient = true;
                                 }
 
                             }
@@ -105,8 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                             radioButtonMale.setChecked(true);
                                                         }
                                                         phone.setText(document.get(DB_PHONE).toString());
-                                                        radioButtonDoctor.setChecked(true);
-                                                        Log.d(TAG, "Doctor details set");
+                                                        isPatient = false;
                                                     }
 
                                                 }
@@ -124,7 +116,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!name.getText().toString().equals("") && !age.getText().toString().equals("")
                         && !phone.getText().toString().equals("")
-                        && radioGroupProfession.getCheckedRadioButtonId() != -1
                         && radioGroupGender.getCheckedRadioButtonId() != -1) {
                     Map<String, Object> reading = new HashMap<>();
                     reading.put(DB_NAME, name.getText().toString());
@@ -136,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                     else {
                         reading.put(DB_SEX, DB_SEX_M);
                     }
-                    if (radioButtonPatient.isChecked()){
+                    if (isPatient){
                         db.collection(COLLECTION_PATIENT).document()
                                 .set(reading)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -147,7 +138,7 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    else if (radioButtonDoctor.isChecked()){
+                    else if (!isPatient){
                         db.collection(COLLECTION_DOCTOR).document()
                                 .set(reading)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

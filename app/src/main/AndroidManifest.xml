@@ -14,12 +14,12 @@
         <activity android:name=".NewPatients" />
         <activity android:name=".SplashActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".NewDoctor" />
@@ -27,11 +27,11 @@
         <activity android:name=".YourDoctors" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DDashboard">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".AddReading" />
         <activity android:name=".NewReading" />

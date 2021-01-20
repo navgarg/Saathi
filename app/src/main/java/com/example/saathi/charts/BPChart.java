@@ -82,5 +82,6 @@ public class BPChart {
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(20f);
+        Log.d("BP", "drawBPChart: data set");
     }
 }

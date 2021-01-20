@@ -95,33 +95,6 @@
                 android:layout_height="wrap_content"/>
         </RadioGroup>
 
-        <TextView
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:text="Profession:"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
-
-        <RadioGroup
-            android:id="@+id/radio_group_profession"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:id="@+id/radio_button_patient"
-                android:layout_width="wrap_content"
-                android:text="Patient"
-                android:layout_height="wrap_content"/>
-
-            <RadioButton
-                android:id="@+id/radio_button_doctor"
-                android:layout_width="wrap_content"
-                android:text="Doctor"
-                android:layout_height="wrap_content"/>
-        </RadioGroup>
-
         <Button
             android:id="@+id/profile_save_btn"
             android:layout_margin="32dp"

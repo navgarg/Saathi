@@ -61,6 +61,8 @@ public class TempChart {
         barChart.getLegend().setEnabled(false);
         barChart.getAxisRight().setEnabled(false);
 
+        Log.d("Temp", "drawTempChart: data set");
+
 
         //Format the x-axis
         XAxis xAxis = barChart.getXAxis();

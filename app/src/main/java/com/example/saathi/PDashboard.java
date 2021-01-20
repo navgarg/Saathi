@@ -87,10 +87,10 @@ public class PDashboard extends AppCompatActivity {
         findViewById(R.id.talk_to_me).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PDashboard.this, ChatActivity.class));
+                //startActivity(new Intent(PDashboard.this, ChatActivity.class));
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://navyagarg.in/saathi-bot/"));
-                //startActivity(intent);
+                startActivity(intent);
             }
         });
 
@@ -153,7 +153,10 @@ public class PDashboard extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         arrayList.clear();
                                                         for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            arrayList.add(new Chart_Data(document.get(DB_DATE).toString(), Float.parseFloat(document.get(COLLECTION_TEMP).toString())));
+                                                            arrayList.add(new Chart_Data(document.getId().split("-")[0]
+                                                                    + " " + document.getId().split("-")[1]
+                                                                   , Float.parseFloat(document.get(COLLECTION_TEMP).toString())));
+                                                            Log.d(TAG, "onComplete: temp array set");
                                                         }
                                                         tempChart.drawTempChart(arrayList);
                                                     }
@@ -188,7 +191,8 @@ public class PDashboard extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         arrayList.clear();
                                                         for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            arrayList.add(new Chart_Data(document.get(DB_DATE).toString()
+                                                            arrayList.add(new Chart_Data(document.getId().split("\\s")[0]
+                                                                    + " " + document.getId().split("\\s")[1]
                                                                     , Float.parseFloat(document.get(COLLECTION_SPO2).toString())));
                                                         }
                                                         spo2Chart.drawSPO2Chart(arrayList);
@@ -224,7 +228,9 @@ public class PDashboard extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         arrayList.clear();
                                                         for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            arrayList.add(new Chart_Data(document.get(DB_DATE).toString(), Float.parseFloat(document.get(COLLECTION_PULSE).toString())));
+                                                            arrayList.add(new Chart_Data(document.getId().split("\\s")[0]
+                                                                    + " " + document.getId().split("\\s")[1]
+                                                                    , Float.parseFloat(document.get(COLLECTION_PULSE).toString())));
                                                         }
                                                         pulseChart.drawPulseChart(arrayList);
                                                     }
@@ -261,12 +267,15 @@ public class PDashboard extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         arrayList.clear();
                                                         for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            systolic.add(new Chart_Data(document.get(DB_DATE).toString()
+                                                            systolic.add(new Chart_Data(document.getId().split("\\s")[0]
+                                                                    + " " + document.getId().split("\\s")[1]
                                                                     , Float.parseFloat(document.get(DB_SYSTOLIC).toString())));
-                                                            diastolic.add(new Chart_Data(document.get(DB_DATE).toString()
+                                                            diastolic.add(new Chart_Data(document.getId().split("\\s")[0]
+                                                                    + " " + document.getId().split("\\s")[1]
                                                                     , Float.parseFloat(document.get(DB_DIASTOLIC).toString())));
                                                         }
                                                         bpChart.drawBPChart(systolic, diastolic);
+                                                        Log.d(TAG, "onComplete: bp data sent");
                                                     }
                                                 }
                                             });

@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     //a constant for detecting the login intent result
     private static final int RC_SIGN_IN = 234;
     private static final String TAG = "LoginActivity";
+    boolean isRegistered;
 
     public static GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth mAuth;
@@ -137,38 +138,44 @@ public class LoginActivity extends AppCompatActivity {
                                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                                     startActivity(new Intent(LoginActivity.this, PDashboard.class));
                                     Log.d(TAG, "signin successful, registered patient");
+                                    isRegistered = true;
                                     finish();
                                 }
 
                             }
                         } else {
                             Log.w(TAG, "Error getting documents: patient db ", task.getException());
-                            db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                if(task.getResult() != null) {
-                                                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                        startActivity(new Intent(LoginActivity.this, DDashboard.class));
-                                                        Log.d(TAG, "signin successful, registered doctor");
-                                                        finish();
-                                                    }
 
-                                                }
-                                            } else {
-                                                Log.w(TAG, "Error getting documents: doctor db ", task.getException());
-                                                Log.d(TAG, "onComplete: new: ");
-                                                startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                                                Toast.makeText(LoginActivity.this, "Kindly fill in your details", Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    });
                         }
                     }
                 });
 
+        db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(task.getResult() != null) {
+                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                    startActivity(new Intent(LoginActivity.this, DDashboard.class));
+                                    Log.d(TAG, "signin successful, registered doctor");
+                                    isRegistered = true;
+                                    finish();
+                                }
+
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents: doctor db ", task.getException());
+                            Log.d(TAG, "onComplete: new: ");
+                        }
+                    }
+                });
+
+//        if (!isRegistered){
+//            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+//            Toast.makeText(LoginActivity.this, "Kindly fill in your details", Toast.LENGTH_LONG).show();
+//        }
 
     }
 

@@ -26,7 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import static com.example.saathi.PDashboard.docid;
+import static com.example.saathi.charts.GetChartData.docid;
 import static com.example.saathi.data.Constants.COLLECTION_PATIENT;
 import static com.example.saathi.data.Constants.DB_DATE;
 import static com.example.saathi.data.Constants.DB_TIME;

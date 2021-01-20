@@ -33,7 +33,7 @@ public class BPChart {
         labelName = new ArrayList<>();
         systolic.clear();
         diastolic.clear();
-        PDashboard.getBPData();
+        GetChartData.getBPData();
         //drawTempChart();
     }
 

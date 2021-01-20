@@ -81,32 +81,34 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         } else {
                             Log.w(TAG, "Error getting documents: patient db ", task.getException());
-                            db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                if (task.getResult() != null) {
-                                                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                        name.setText(document.get(DB_NAME).toString());
-                                                        age.setText(document.get(DB_AGE).toString());
-                                                        if (document.get(DB_SEX).toString().equals(DB_SEX_F)){
-                                                            radioButtonFemale.setChecked(true);
-                                                        }
-                                                        else{
-                                                            radioButtonMale.setChecked(true);
-                                                        }
-                                                        phone.setText(document.get(DB_PHONE).toString());
-                                                        isPatient = false;
-                                                    }
 
-                                                }
-                                            } else {
-                                                Log.w(TAG, "Error getting documents: doctor db ", task.getException());
-                                            }
-                                        }
-                                    });
+                        }
+                    }
+                });
+
+        db.collection(COLLECTION_DOCTOR).whereEqualTo("uid", user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null) {
+                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                    name.setText(document.get(DB_NAME).toString());
+                                    age.setText(document.get(DB_AGE).toString());
+                                    if (document.get(DB_SEX).toString().equals(DB_SEX_F)){
+                                        radioButtonFemale.setChecked(true);
+                                    }
+                                    else{
+                                        radioButtonMale.setChecked(true);
+                                    }
+                                    phone.setText(document.get(DB_PHONE).toString());
+                                    isPatient = false;
+                                }
+
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents: doctor db ", task.getException());
                         }
                     }
                 });

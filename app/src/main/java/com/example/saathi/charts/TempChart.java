@@ -30,7 +30,9 @@ public class TempChart {
         barEntriesArrayList = new ArrayList<>();
         labelName = new ArrayList<>();
         tempArrayList.clear();
-        PDashboard.getTempData();
+        Log.d("Temp", "TempChart: const");
+        GetChartData.getTempData();
+        Log.d("Temp", "TempChart: getTempData called");
         //drawTempChart();
     }
 

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.saathi.charts.BPChart;
+import com.example.saathi.charts.GetChartData;
 import com.example.saathi.charts.MoodChart;
 import com.example.saathi.charts.PulseChart;
 import com.example.saathi.charts.SPO2Chart;
@@ -59,10 +60,10 @@ import static com.example.saathi.data.Constants.DB_SYSTOLIC;
 public class PDashboard extends AppCompatActivity {
 
     static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
-    static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static String docid = "";
-    static final String TAG = "PDashboard";
+//    public static ArrayList<Chart_Data> arrayList = new ArrayList<>();
+//    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+//    public static String docid = "";
+//    static final String TAG = "PDashboard";
     static SPO2Chart spo2Chart;
     static PulseChart pulseChart;
     static TempChart tempChart;
@@ -101,8 +102,10 @@ public class PDashboard extends AppCompatActivity {
         moodChart = new MoodChart((LineChart) findViewById(R.id.mood_chart));
 
 
+        new GetChartData(spo2Chart, pulseChart, bpChart, tempChart, moodChart, user.getUid());
+        Log.d(TAG, "onCreate: initialised all");
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_pdash);
+        BottomNavigationView navigation = findViewById(R.id.navigation_pdash);
 
         Menu menu = navigation.getMenu();
         menu.findItem(R.id.action_pdash).setIcon(R.mipmap.assignment_logo_round);
@@ -134,159 +137,5 @@ public class PDashboard extends AppCompatActivity {
 
     }
 
-    public static ArrayList<Chart_Data> getTempData(){
-        Log.d(TAG, "getData: ");
-        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if(task.getResult() != null) {
-                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                    docid = document.getId();
-                                    db.collection(COLLECTION_PATIENT).document(docid).collection(COLLECTION_TEMP)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        arrayList.clear();
-                                                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            arrayList.add(new Chart_Data(document.getId().split("-")[0]
-                                                                    + " " + document.getId().split("-")[1]
-                                                                   , Float.parseFloat(document.get(COLLECTION_TEMP).toString())));
-                                                            Log.d(TAG, "onComplete: temp array set");
-                                                        }
-                                                        tempChart.drawTempChart(arrayList);
-                                                    }
-                                                }
-                                            });
-                                }
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents. ", task.getException());
-                        }
-                    }
-                });
 
-        return arrayList;
-    }
-
-    public static ArrayList<Chart_Data> getSPO2Data(){
-        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if(task.getResult() != null) {
-                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                    docid = document.getId();
-                                    db.collection(COLLECTION_PATIENT).document(docid).collection(COLLECTION_SPO2)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        arrayList.clear();
-                                                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            arrayList.add(new Chart_Data(document.getId().split("\\s")[0]
-                                                                    + " " + document.getId().split("\\s")[1]
-                                                                    , Float.parseFloat(document.get(COLLECTION_SPO2).toString())));
-                                                        }
-                                                        spo2Chart.drawSPO2Chart(arrayList);
-                                                    }
-                                                }
-                                            });
-                                }
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents. ", task.getException());
-                        }
-                    }
-                });
-
-        return arrayList;
-    }
-
-    public static ArrayList<Chart_Data> getPulseData(){
-        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if(task.getResult() != null) {
-                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                    docid = document.getId();
-                                    db.collection(COLLECTION_PATIENT).document(docid).collection(COLLECTION_PULSE)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        arrayList.clear();
-                                                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            arrayList.add(new Chart_Data(document.getId().split("\\s")[0]
-                                                                    + " " + document.getId().split("\\s")[1]
-                                                                    , Float.parseFloat(document.get(COLLECTION_PULSE).toString())));
-                                                        }
-                                                        pulseChart.drawPulseChart(arrayList);
-                                                    }
-                                                }
-                                            });
-                                }
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents. ", task.getException());
-                        }
-                    }
-                });
-
-        return arrayList;
-    }
-
-    public static ArrayList<Chart_Data> getBPData(){
-        final ArrayList<Chart_Data> systolic = new ArrayList<>();
-        final ArrayList<Chart_Data> diastolic = new ArrayList<>();
-        db.collection(COLLECTION_PATIENT).whereEqualTo("uid", user.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if(task.getResult() != null) {
-                                for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                    docid = document.getId();
-                                    db.collection(COLLECTION_PATIENT).document(docid).collection(COLLECTION_BP)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        arrayList.clear();
-                                                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                                            systolic.add(new Chart_Data(document.getId().split("\\s")[0]
-                                                                    + " " + document.getId().split("\\s")[1]
-                                                                    , Float.parseFloat(document.get(DB_SYSTOLIC).toString())));
-                                                            diastolic.add(new Chart_Data(document.getId().split("\\s")[0]
-                                                                    + " " + document.getId().split("\\s")[1]
-                                                                    , Float.parseFloat(document.get(DB_DIASTOLIC).toString())));
-                                                        }
-                                                        bpChart.drawBPChart(systolic, diastolic);
-                                                        Log.d(TAG, "onComplete: bp data sent");
-                                                    }
-                                                }
-                                            });
-                                }
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents. ", task.getException());
-                        }
-                    }
-                });
-
-        return arrayList;
-    }
 }

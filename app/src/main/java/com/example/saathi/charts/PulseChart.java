@@ -25,7 +25,7 @@ public class PulseChart {
 
     public PulseChart(LineChart lineChart){
         pulseArrayList.clear();
-        PDashboard.getPulseData();
+        GetChartData.getPulseData();
         this.lineChart = lineChart;
         barEntriesArrayList = new ArrayList<>();
         //drawPulseChart();

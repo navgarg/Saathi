@@ -24,13 +24,13 @@ public class DDashboard extends AppCompatActivity {
 
         TextView greet = findViewById(R.id.ddash_greet);
         //greet.setText("Hi Dr. " + user.getDisplayName() + "! Good Day!");
-        greet.setText("Hi " + "Navya" + "! Good Day!");
+        greet.setText("Hi Dr." + "Navya" + "! Good Day!");
 
         CardView newPatients = findViewById(R.id.new_patients);
         newPatients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(DDashboard.this, YourPatients.class));
+                startActivity(new Intent(DDashboard.this, NewPatients.class));
             }
         });
 

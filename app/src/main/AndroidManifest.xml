@@ -11,19 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".SplashActivity" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".NewPatients" />
+        <activity android:name=".SplashActivity">
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".NewDoctor" />
         <activity android:name=".YourPatients" />
         <activity android:name=".YourDoctors" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".DDashboard" >
+        <activity android:name=".DDashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,8 +37,6 @@
         <activity android:name=".NewReading" />
         <activity android:name=".PDashboard" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
-        </activity>
     </application>
 
 </manifest>
